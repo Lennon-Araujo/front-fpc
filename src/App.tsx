@@ -6,10 +6,12 @@ function App() {
 
   return (
     <>
-    <div className="flex flex-col">
-      <Header />
-      <Categories />
-      <Transactions />
+    <div className="w-screen h-screen">
+      <div className="lg:container mx-auto flex flex-col items-center bg-slate-500">
+        <Header />
+        <Categories />
+        <Transactions />
+      </div>
     </div>
     </>
   )
