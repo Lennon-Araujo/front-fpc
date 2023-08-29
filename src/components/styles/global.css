@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'geakosa-regular';
+  src: url(./fonts/geakosa-regular.ttf);
+}
+
+@font-face {
+  font-family: 'Autography';
+  src: url(./fonts/Autography.otf);
+}

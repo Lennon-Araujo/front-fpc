@@ -39,9 +39,16 @@ export function Categories() {
 
   return (
     <>
-      <h1>Categories</h1>
-      <form onSubmit={handleCreateCategory}>
-        <input type="text" name="Category" id="Category" placeholder="Digite o nome da categoria" value={categoryFormName} onChange={handleCategoryFormName} />
+      <h1 className="text-2xl">Categories</h1>
+      <form onSubmit={handleCreateCategory} className="flex gap-2 items-center justify-center">
+        <input
+          className="w-60 "
+          type="text"
+          name="Category"
+          id="Category"
+          placeholder="Digite o nome da categoria"
+          value={categoryFormName} onChange={handleCategoryFormName}
+        />
         <button type="submit">Criar categoria</button>
       </form>
       <div>
