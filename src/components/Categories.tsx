@@ -38,7 +38,7 @@ export function Categories() {
   }
 
   return (
-    <div className="w-4/5 p-7 mt-7 flex flex-col md:flex-row gap-5 md:gap-2 items-center justify-between bg-primary rounded-2xl"> 
+    <div className="w-11/12 md:w-4/5 p-7 mt-7 flex flex-col md:flex-row gap-5 md:gap-2 items-center justify-between bg-primary rounded-2xl"> 
       <h1 className="text-center font-serif text-3xl text-secondary">Nova Categoria</h1>
       <form onSubmit={handleCreateCategory} className="flex gap-4 items-center justify-center md:justify-end">
         <input
@@ -52,7 +52,7 @@ export function Categories() {
 
         <button
           type="submit"
-          className="h-10 bg-secondary py-2 px-5 rounded font-serif text-2xl text-primary flex items-center"
+          className="h-10 bg-secondary py-2 px-5 rounded font-serif text-2xl text-primary flex items-center hover:bg-secondary/80 hover:text-primary/80  transition"
         >
           Criar
         </button>

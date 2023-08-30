@@ -6,8 +6,8 @@ function App() {
 
   return (
     <>
-    <div className="w-screen h-screen">
-      <div className="lg:container mx-auto flex flex-col items-center bg-slate-500">
+    <div className="w-screen h-screen bg-basic">
+      <div className="lg:container mx-auto flex flex-col items-center">
         <Header />
         <Categories />
         <Transactions />
