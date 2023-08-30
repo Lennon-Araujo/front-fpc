@@ -62,7 +62,7 @@ export function Transactions() {
   // }
 
   return (
-    <main className="w-11/12 md:w-4/5 p-4 mt-7 flex flex-col gap-5 bg-primary rounded-2xl">
+    <main className="w-11/12 p-4 flex flex-col gap-5 bg-primary rounded-2xl">
       <header className="flex flex-row items-center justify-between">
         <h1
           className="text-center font-serif text-3xl text-secondary"
@@ -74,7 +74,7 @@ export function Transactions() {
         </div>
       </header>
       <section className="overflow-auto bg-basic w-full h-auto max-h-[80vh] md:max-h-[60vh] rounded-2xl">
-        <div className="flex flex-wrap gap-2 p-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 p-2">
           <TransactionCard />
           <TransactionCard />
           <TransactionCard />
