@@ -1,40 +1,15 @@
-import axios from "axios";
 import { ChangeEvent, FormEvent, useState } from "react";
 
-// interface Category {
-//   id: number;
-//   name: string;
-//   created_at: string;
-// }
-
 export function Categories() {
-  // const [categories, setCategories] = useState<Category[]>([])
   const [categoryFormName, setCategoryFormName] = useState('')
-
-  // async function populateCategories() {
-  //   const { data } = await axios.get('http://localhost:3000/category')
-  //   if(data.length > 0) {
-  //     setCategories([...data])
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   populateCategories()
-  // }, [])
-
-  async function handleCreateCategory(event: FormEvent) {
-    event.preventDefault()
-    const payload = {
-      name: categoryFormName
-    }
-    const response = await axios.post('http://localhost:3000/category', payload)
-    if(response.status === 201) {
-      // populateCategories()
-    }
-  }
 
   function handleCategoryFormName(event: ChangeEvent<HTMLInputElement>) {
     setCategoryFormName(event.target.value)
+  }
+
+  function handleCreateCategory(event: FormEvent) {
+    event.preventDefault()
+    // TODO Criar função usando contexto
   }
 
   return (
