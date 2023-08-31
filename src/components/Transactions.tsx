@@ -73,7 +73,7 @@ export function Transactions() {
           <Plus size={38} className="text-secondary hover:text-primary transition" />
         </div>
       </header>
-      <section className="overflow-auto bg-basic w-full h-auto max-h-[80vh] md:max-h-[60vh] rounded-2xl">
+      <section className="overflow-auto transition bg-basic w-full h-auto max-h-[80vh] md:max-h-[60vh] rounded-2xl ">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 p-2">
           <TransactionCard />
           <TransactionCard />
