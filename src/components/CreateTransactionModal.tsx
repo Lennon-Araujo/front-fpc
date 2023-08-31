@@ -1,28 +1,22 @@
-import { useContext, useState } from 'react';
+// import { useContext, useState } from 'react';
 import Modal from 'react-modal';
-import { CategoryContext } from '../contexts/CategoryContext';
+// import { CategoryContext } from '../contexts/CategoryContext';
+
+interface CreateTransactionModalPropsType {
+  isOpen: boolean;
+  closeModal: () => void;
+}
 
 Modal.setAppElement('#root');
+export function CreateTransactionModal({isOpen, closeModal}: CreateTransactionModalPropsType) {
 
-export function CreateTransactionModal() {
-  const [modalIsOpen, setIsOpen] = useState(false);
-  const { categories } = useContext(CategoryContext);
-
-  // function openModal() {
-  //   setIsOpen(true);
-  // }
-
-  function closeModal() {
-    setIsOpen(false);
-    console.log(categories);
-    
-  }
+  // const { categories } = useContext(CategoryContext);
 
   return (
     <Modal
       // className={style.modal}
       // overlayClassName={style.modal_overlay}
-      isOpen={modalIsOpen}
+      isOpen={isOpen}
       onRequestClose={closeModal}
     >
       <header>

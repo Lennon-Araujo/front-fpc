@@ -6,6 +6,8 @@ import 'react-date-picker/dist/DatePicker.css';
 import 'react-calendar/dist/Calendar.css';
 import { Plus } from 'phosphor-react';
 import { TransactionCard } from './TransactionCard';
+import { CreateTransactionModal } from './CreateTransactionModal';
+import { useState } from 'react';
 
 interface Transactions {
   id: number;
@@ -26,6 +28,7 @@ interface Transactions {
 // }
 
 export function Transactions() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   // const [transactions, setTransactions] = useState<Transactions[]>([])
 
   // const initialFormData = {
@@ -61,6 +64,14 @@ export function Transactions() {
   //   }
   // }
 
+  function handleOpenCreateTransactionModal() {
+    setIsModalOpen(true);
+  }
+
+  function onCloseCreateTransactionModal() {
+    setIsModalOpen(false);
+  }
+
   return (
     <main className="w-11/12 p-4 flex flex-col gap-5 bg-primary rounded-2xl">
       <header className="flex flex-row items-center justify-between">
@@ -70,7 +81,7 @@ export function Transactions() {
           Transações
         </h1>
         <div className="cursor-pointer hover:bg-secondary rounded-sm transition">
-          <Plus size={38} className="text-secondary hover:text-primary transition" />
+          <Plus size={38} className="text-secondary hover:text-primary transition" onClick={handleOpenCreateTransactionModal} />
         </div>
       </header>
       <section className="overflow-auto transition bg-basic w-full h-auto max-h-[80vh] md:max-h-[60vh] rounded-2xl ">
@@ -131,7 +142,10 @@ export function Transactions() {
             )
           })
         } */}
-
+      <CreateTransactionModal
+        isOpen={isModalOpen}
+        closeModal={onCloseCreateTransactionModal}
+      />
     </main>
   )
 }
