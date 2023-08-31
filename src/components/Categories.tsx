@@ -1,15 +1,19 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useContext, useState } from "react";
+import { CategoryContext } from "../contexts/CategoryContext";
 
 export function Categories() {
   const [categoryFormName, setCategoryFormName] = useState('')
+
+  const { onCreateCategory } = useContext(CategoryContext)
 
   function handleCategoryFormName(event: ChangeEvent<HTMLInputElement>) {
     setCategoryFormName(event.target.value)
   }
 
-  function handleCreateCategory(event: FormEvent) {
+  async function handleCreateCategory(event: FormEvent) {
     event.preventDefault()
-    // TODO Criar função usando contexto
+    const response = await onCreateCategory(categoryFormName)
+    response === 201 ? setCategoryFormName('') : console.log(response);
   }
 
   return (
@@ -27,7 +31,8 @@ export function Categories() {
 
         <button
           type="submit"
-          className="h-10 bg-secondary py-2 px-5 rounded font-serif text-2xl text-primary flex items-center hover:bg-secondary/80 hover:text-primary/80 transition"
+          disabled={!categoryFormName}
+          className="h-10 bg-secondary py-2 px-5 rounded font-serif text-2xl text-primary flex items-center hover:bg-secondary/80 hover:text-primary/80 transition  disabled:bg-secondary/80 disabled:text-primary/80 disabled:cursor-not-allowed"
         >
           Criar
         </button>

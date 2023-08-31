@@ -2,7 +2,8 @@ import axios from "axios";
 import { ReactNode, createContext, useEffect, useState } from "react";
 
 interface CategoryContextType {
-  categories: Category[]
+  categories: Category[];
+  onCreateCategory: (categoryName: string) => Promise<unknown>;
 }
 
 interface Category {
@@ -31,25 +32,28 @@ export function CategoryContextProvider({ children }: CategoryContextPropsType) 
   useEffect(() => {
     populateCategories()
   }, [])
-
-  console.log(categories);
   
 
-  // async function handleCreateCategory() {
-  //   // TODO implementar lógica
-  //   const payload = {
-  //     name: 'Trazer'
-  //   }
-  //   const response = await axios.post('http://localhost:3000/category', payload)
-  //   if(response.status === 201) {
-  //     populateCategories()
-  //   }
-  // }
+  async function onCreateCategory(categoryName: string) {
+    const payload = {
+      name: categoryName
+    }
+    try {
+      const response = await axios.post('http://localhost:3000/category', payload)
+      if(response.status === 201) {
+        populateCategories()
+        return response.status
+      }
+    } catch (error) {
+      return error;
+    }
+  }
 
   return (
     <CategoryContext.Provider
       value={{
-        categories
+        categories,
+        onCreateCategory
       }}
     >
       { children }
