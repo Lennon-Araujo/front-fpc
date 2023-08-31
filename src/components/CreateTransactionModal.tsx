@@ -1,11 +1,15 @@
 // import { useContext, useState } from 'react';
 import { FormEvent, useState } from 'react';
-import DatePicker from 'react-date-picker';
+import DatePicker from "react-datepicker";
 import Modal from 'react-modal';
+import { registerLocale } from  "react-datepicker";
+import ptBr from 'date-fns/locale/pt-BR';
+registerLocale('ptBr', ptBr)
 
-import 'react-date-picker/dist/DatePicker.css';
-import 'react-calendar/dist/Calendar.css';
+import "react-datepicker/dist/react-datepicker.css";
 import { UsersHttpHelper } from '../helpers/transactionsHttp';
+import { X } from 'phosphor-react';
+import { format } from 'date-fns';
 // import { CategoryContext } from '../contexts/CategoryContext';
 
 interface CreateTransactionModalPropsType {
@@ -13,11 +17,9 @@ interface CreateTransactionModalPropsType {
   closeModal: () => void;
 }
 
-type ValuePiece = Date | null;
-type Value = ValuePiece | [ValuePiece, ValuePiece];
 export interface TransactionsFormData {
   name: string;
-  when: Value;
+  when: Date;
   cost: number;
   categoryId: number;
   shared: boolean;
@@ -31,13 +33,13 @@ Modal.setAppElement('#root');
 export function CreateTransactionModal({isOpen, closeModal}: CreateTransactionModalPropsType) {
   const initialFormData = {
     name: '',
-    when: null,
+    when: new Date(),
     cost: 0,
     categoryId: 1,
     shared: false
-  }
+  } as TransactionsFormData
 
-  const [transactionsFormData, setTransactionsFormData] = useState(initialFormData as TransactionsFormData)
+  const [transactionsFormData, setTransactionsFormData] = useState(initialFormData)
 
 
   // const { categories } = useContext(CategoryContext);
@@ -55,61 +57,104 @@ export function CreateTransactionModal({isOpen, closeModal}: CreateTransactionMo
 
   return (
     <Modal
-      className="h-[40vh] w-[35vw] mx-auto my-[20vh] bg-basic rounded-2xl flex items-center justify-between flex-col"
+      className="h-[80vh] w-[80vw] mx-auto my-[10vh] bg-primary rounded-2xl flex items-center justify-start flex-col overflow-hidden"
       overlayClassName="modal_overlay"
       isOpen={isOpen}
       onRequestClose={closeModal}
     >
-      <header>
-        <h2>Tem certeza que deseja excluir o funcionário?</h2>
+      <header className="p-5 bg-primary w-full flex justify-between">
+        <h2 className="font-serif text-secondary text-3xl">Nova Transação</h2>
+        <X onClick={closeModal} size={38} className="text-secondary hover:text-primary hover:bg-secondary transition cursor-pointer rounded-sm " />
       </header>
 
-      <form onSubmit={handleCreateTransaction}>
-        <label htmlFor="name">Nome</label>
-        <input
-          type="text"
-          name="name"
-          id="name"
-          placeholder="Digite qual a transação realizada"
-          value={transactionsFormData.name}
-          onChange={(event) => setTransactionsFormData((prevState) => ({...prevState, name: event.target.value}))}
-        />
+      <div className="p-5 h-full w-full flex items-start justify-center bg-basic">
+        <form onSubmit={handleCreateTransaction} className="flex flex-col items-center gap-5 w-full">
+          <div className="bg-primary w-3/4 p-0.5 rounded-2xl">
+            <label htmlFor="name" className="text-primary"></label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              placeholder="Nome da transação"
+              className={`
+                border-none
+                outline-none
+                text-center
+                rounded-2xl
+                w-full
+                h-8
+                text-secondary
+                text-lg
+                font-serif
+                truncate
+                placeholder:text-primary/80
+                ${transactionsFormData.name ? 'bg-primary' : 'bg-basic'}
+              `}
+              value={transactionsFormData.name}
+              onChange={(event) => setTransactionsFormData((prevState) => ({...prevState, name: event.target.value}))}
+            />
+          </div>
 
-        <DatePicker value={transactionsFormData.when} onChange={(valor) => setTransactionsFormData((prevState) => ({...prevState, when: valor}))} />
+          // TODO corrigir erro de estado
+          <DatePicker
+            selected={transactionsFormData.when}
+            onChange={(valor) => setTransactionsFormData((prevState) => ({...prevState, when: valor}))}
+            locale="ptBr"
+            dateFormat="dd/MM/yyyy"
+            value={format(transactionsFormData.when, 'dd/MM/yyyy')}
+            className="
+            border-none
+            outline-none
+            text-center
+            rounded-2xl
+            w-full
+            h-8
+            text-primary
+            text-lg
+            font-serif
+            truncate
+            "
+          />
 
-        <label htmlFor="cost">Custo</label>
-        <input
-          type="number"
-          name="cost"
-          id="cost"
-          placeholder="Valor"
-          value={transactionsFormData.cost}
-          onChange={(event) => setTransactionsFormData((prevState) => ({...prevState, cost: Number(event.target.value)}))}
-        />
+          <div>
+            <label htmlFor="cost">Custo</label>
+            <input
+              type="number"
+              name="cost"
+              id="cost"
+              placeholder="Valor"
+              value={transactionsFormData.cost}
+              onChange={(event) => setTransactionsFormData((prevState) => ({...prevState, cost: Number(event.target.value)}))}
+            />
+          </div>
 
-        <label htmlFor="categoryId">Categoria</label>
-        <input
-          type="number"
-          name="categoryId"
-          id="categoryId"
-          placeholder="CategoryIs"
-          value={transactionsFormData.categoryId}
-          onChange={(event) => setTransactionsFormData((prevState) => ({...prevState, categoryId: Number(event.target.value)}))}
-        />
+          <div>
+            <label htmlFor="categoryId">Categoria</label>
+            <input
+              type="number"
+              name="categoryId"
+              id="categoryId"
+              placeholder="CategoryIs"
+              value={transactionsFormData.categoryId}
+              onChange={(event) => setTransactionsFormData((prevState) => ({...prevState, categoryId: Number(event.target.value)}))}
+            />
+          </div>
 
-        <label htmlFor="shared">Compartilhado</label>
-        <input
-          type="checkbox"
-          name="shared"
-          id="shared"
-          checked={transactionsFormData.shared}
-          onChange={(event) => setTransactionsFormData((prevState) => ({...prevState, shared: event.target.checked}))}
-        />
+          <div>
+            <label htmlFor="shared">Compartilhado</label>
+            <input
+              type="checkbox"
+              name="shared"
+              id="shared"
+              checked={transactionsFormData.shared}
+              onChange={(event) => setTransactionsFormData((prevState) => ({...prevState, shared: event.target.checked}))}
+            />
+          </div>
 
-        <button type="submit">Criar categoria</button>
-      </form>
-      <button onClick={closeModal}>Cliq</button>
+          <button type="submit">Criar categoria</button>
+        </form>
 
+      </div>
     </Modal>
   )
 }

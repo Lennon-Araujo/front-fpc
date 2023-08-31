@@ -44,9 +44,7 @@ export function Transactions() {
         >
           Transações
         </h1>
-        <div className="cursor-pointer hover:bg-secondary rounded-sm transition">
-          <Plus size={38} className="text-secondary hover:text-primary transition" onClick={handleOpenCreateTransactionModal} />
-        </div>
+        <Plus size={38} className="text-secondary hover:text-primary cursor-pointer hover:bg-secondary rounded-sm transition " onClick={handleOpenCreateTransactionModal} />
       </header>
       <section className="overflow-auto transition bg-basic w-full h-auto max-h-[80vh] md:max-h-[60vh] rounded-2xl ">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 p-2">
