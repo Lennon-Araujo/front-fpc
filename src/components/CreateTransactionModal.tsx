@@ -1,16 +1,15 @@
 // import { useContext, useState } from 'react';
 import { FormEvent, useState } from 'react';
 import DatePicker from "react-datepicker";
-import Modal from 'react-modal';
 import { registerLocale } from  "react-datepicker";
 import ptBr from 'date-fns/locale/pt-BR';
-registerLocale('ptBr', ptBr)
+import Modal from 'react-modal';
+import { X } from 'phosphor-react';
+import { UsersHttpHelper } from '../helpers/transactionsHttp';
 
 import "react-datepicker/dist/react-datepicker.css";
-import { UsersHttpHelper } from '../helpers/transactionsHttp';
-import { X } from 'phosphor-react';
-import { format } from 'date-fns';
 // import { CategoryContext } from '../contexts/CategoryContext';
+registerLocale('ptBr', ptBr)
 
 interface CreateTransactionModalPropsType {
   isOpen: boolean;
@@ -19,8 +18,8 @@ interface CreateTransactionModalPropsType {
 
 export interface TransactionsFormData {
   name: string;
-  when: Date;
-  cost: number;
+  when: Date | null;
+  cost: number | null;
   categoryId: number;
   shared: boolean;
 }
@@ -34,7 +33,7 @@ export function CreateTransactionModal({isOpen, closeModal}: CreateTransactionMo
   const initialFormData = {
     name: '',
     when: new Date(),
-    cost: 0,
+    cost: null,
     categoryId: 1,
     shared: false
   } as TransactionsFormData
@@ -75,7 +74,7 @@ export function CreateTransactionModal({isOpen, closeModal}: CreateTransactionMo
               type="text"
               name="name"
               id="name"
-              placeholder="Nome da transação"
+              placeholder="Ex: Aluguel..."
               className={`
                 border-none
                 outline-none
@@ -87,21 +86,19 @@ export function CreateTransactionModal({isOpen, closeModal}: CreateTransactionMo
                 text-lg
                 font-serif
                 truncate
-                placeholder:text-primary/80
-                ${transactionsFormData.name ? 'bg-primary' : 'bg-basic'}
+                placeholder:text-primary/30
+                ${transactionsFormData.name && 'bg-primary'}
               `}
               value={transactionsFormData.name}
               onChange={(event) => setTransactionsFormData((prevState) => ({...prevState, name: event.target.value}))}
             />
           </div>
 
-          // TODO corrigir erro de estado
           <DatePicker
             selected={transactionsFormData.when}
             onChange={(valor) => setTransactionsFormData((prevState) => ({...prevState, when: valor}))}
             locale="ptBr"
             dateFormat="dd/MM/yyyy"
-            value={format(transactionsFormData.when, 'dd/MM/yyyy')}
             className="
             border-none
             outline-none
@@ -122,8 +119,8 @@ export function CreateTransactionModal({isOpen, closeModal}: CreateTransactionMo
               type="number"
               name="cost"
               id="cost"
-              placeholder="Valor"
-              value={transactionsFormData.cost}
+              placeholder="1200,00"
+              value={transactionsFormData.cost || ""}
               onChange={(event) => setTransactionsFormData((prevState) => ({...prevState, cost: Number(event.target.value)}))}
             />
           </div>
