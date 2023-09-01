@@ -32,7 +32,7 @@ export function Categories() {
         <button
           type="submit"
           disabled={!categoryFormName}
-          className="h-10 bg-secondary py-2 px-5 rounded font-serif text-2xl text-primary flex items-center hover:bg-secondary/80 hover:text-primary/80 transition  disabled:bg-secondary/80 disabled:text-primary/80 disabled:cursor-not-allowed"
+          className="h-10 bg-secondary py-2 px-5 rounded font-serif text-2xl text-primary flex items-center hover:bg-secondary/80 hover:text-primary/80 transition disabled:bg-secondary/80 disabled:text-primary/80 disabled:cursor-not-allowed"
         >
           Criar
         </button>
