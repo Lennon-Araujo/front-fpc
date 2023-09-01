@@ -39,7 +39,9 @@ export function CreateTransactionModal({isOpen, closeModal}: CreateTransactionMo
   } as TransactionsFormData
 
   const [transactionsFormData, setTransactionsFormData] = useState(initialFormData)
-
+  const isDisabled = !!transactionsFormData.name && !!transactionsFormData.cost && !!transactionsFormData.categoryId && !!transactionsFormData.when
+  console.log(!isDisabled);
+  
 
   // const { categories } = useContext(CategoryContext);
 
@@ -157,8 +159,7 @@ export function CreateTransactionModal({isOpen, closeModal}: CreateTransactionMo
 
           <div className="w-full max-w-xs p-0.5 flex flex-col gap-1">
             <label htmlFor="categoryId" className="text-primary">Categoria</label>
-            <input
-              type="text"
+            <select
               name="categoryId"
               id="categoryId"
               placeholder="CategoryIs"
@@ -174,15 +175,35 @@ export function CreateTransactionModal({isOpen, closeModal}: CreateTransactionMo
                 font-serif
                 placeholder:text-primary/30
                 shadow-sm
-                ${transactionsFormData.cost && 'bg-primary'}`
+                ${transactionsFormData.categoryId && 'bg-primary'}`
               }
               onChange={(event) => setTransactionsFormData((prevState) => ({...prevState, categoryId: Number(event.target.value)}))}
-            />
+            >
+              <option value="">Selecione...</option>
+              <option value={1}>Teste</option>
+            </select>
           </div>
 
           <button
             type="submit"
-            className="w-full max-w-xs p-3 mt-7 rounded bg-secondary text-primary font-serif text-xl hover:bg-secondary/80 hover:text-primary/80 transition"
+            disabled={!isDisabled}
+            className="
+              w-full
+              max-w-xs
+              p-3
+              mt-7
+              rounded
+              bg-secondary
+              text-primary
+              font-serif
+              text-xl
+              hover:bg-secondary/80
+              hover:text-primary/80
+              transition
+              disabled:bg-secondary/90
+              disabled:text-primary/80
+              disabled:cursor-not-allowed
+            "
           >
             Criar Transação
           </button>
