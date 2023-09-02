@@ -1,3 +1,4 @@
+import { ToastContainer } from "react-toastify"
 import { Categories } from "./components/Categories"
 import { Header } from "./components/Header"
 import { Transactions } from "./components/Transactions"
@@ -7,6 +8,7 @@ function App() {
 
   return (
     <>
+    <ToastContainer />
     <div className="w-screen h-auto pb-7 bg-basic">
       <div className="container mx-auto flex flex-col items-center">
         <Header />

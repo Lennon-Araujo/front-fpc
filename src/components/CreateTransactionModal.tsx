@@ -1,5 +1,5 @@
 // import { useContext, useState } from 'react';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useContext, useState } from 'react';
 import DatePicker from "react-datepicker";
 import { registerLocale } from  "react-datepicker";
 import ptBr from 'date-fns/locale/pt-BR';
@@ -8,7 +8,8 @@ import { X } from 'phosphor-react';
 import { UsersHttpHelper } from '../helpers/transactionsHttp';
 
 import "react-datepicker/dist/react-datepicker.css";
-// import { CategoryContext } from '../contexts/CategoryContext';
+import { CategoryContext } from '../contexts/CategoryContext';
+import * as toast from '../helpers/toast';
 registerLocale('ptBr', ptBr)
 
 interface CreateTransactionModalPropsType {
@@ -34,16 +35,13 @@ export function CreateTransactionModal({isOpen, closeModal}: CreateTransactionMo
     name: '',
     when: new Date(),
     cost: null,
-    categoryId: 1,
+    categoryId: 0,
     shared: false
   } as TransactionsFormData
 
   const [transactionsFormData, setTransactionsFormData] = useState(initialFormData)
   const isDisabled = !!transactionsFormData.name && !!transactionsFormData.cost && !!transactionsFormData.categoryId && !!transactionsFormData.when
-  console.log(!isDisabled);
-  
-
-  // const { categories } = useContext(CategoryContext);
+  const { categories } = useContext(CategoryContext);
 
   async function handleCreateTransaction(event: FormEvent) {
     event.preventDefault()
@@ -51,9 +49,12 @@ export function CreateTransactionModal({isOpen, closeModal}: CreateTransactionMo
       ...transactionsFormData
     }
     const response = await UsersHttpHelper.createTransaction(payload) as StatusCodeApiResponse
-    if(response.status === 201) {
-      await UsersHttpHelper.getAll()
-    }
+       if(response.status === 201) {
+        await UsersHttpHelper.getAll()
+        toast.success("Transação criada com sucesso!")
+      } else {
+        toast.error("Ocorreu um erro no processo.")
+      }
   }
 
   return (
@@ -135,7 +136,6 @@ export function CreateTransactionModal({isOpen, closeModal}: CreateTransactionMo
                 text-secondary
                 font-sans
                 placeholder:text-primary/30
-                shadow-sm
                 ${transactionsFormData.cost && 'bg-primary'}
               `}
               />
@@ -161,7 +161,7 @@ export function CreateTransactionModal({isOpen, closeModal}: CreateTransactionMo
               placeholder="CategoryIs"
               value={transactionsFormData.categoryId}
               className={`
-                p-3
+                p-2
                 text-left
                 rounded
                 w-full
@@ -169,13 +169,18 @@ export function CreateTransactionModal({isOpen, closeModal}: CreateTransactionMo
                 text-secondary
                 font-sans
                 placeholder:text-primary/30
-                shadow-sm
                 ${transactionsFormData.categoryId && 'bg-primary'}`
               }
               onChange={(event) => setTransactionsFormData((prevState) => ({...prevState, categoryId: Number(event.target.value)}))}
             >
-              <option value="">Selecione...</option>
-              <option value={1}>Teste</option>
+              <option value={0}>Selecione...</option>
+              {
+                categories.map((category) => {
+                  return (
+                    <option key={category.id} value={category.id}>{category.name}</option>
+                  )
+                })
+              }
             </select>
           </div>
 
@@ -184,7 +189,6 @@ export function CreateTransactionModal({isOpen, closeModal}: CreateTransactionMo
             disabled={!isDisabled}
             className="
               w-full
-             
               p-3
               mt-7
               rounded
