@@ -1,13 +1,16 @@
 import { api } from './axios'
 import { TransactionsFormData } from '../components/CreateTransactionModal'
+import { error } from './toast'
 
-export class UsersHttpHelper {
-  static getAll() {
-    return new Promise((resolve, reject) => {
-      api.get('/transactions')
-      .then(resolve)
-      .catch(reject)
-    })
+export class TransactionsHttpHelper {
+  static async getAll() {
+    try {
+      const response = await api.get('/transactions')
+      return response
+    } catch (err) {
+    error("Erro: Busca de transações")
+      throw new Error()
+    }
   }
 
   static createTransaction(payload: TransactionsFormData) {

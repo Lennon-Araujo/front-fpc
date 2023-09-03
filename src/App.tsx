@@ -8,18 +8,18 @@ function App() {
 
   return (
     <>
-    <ToastContainer />
-    <div className="w-screen h-auto pb-7 bg-basic">
-      <div className="container mx-auto flex flex-col items-center">
-        <Header />
-        <CategoryContextProvider>
-          <div className="container mx-auto flex flex-col items-center gap-3 mt-3">
-            <Categories />
-            <Transactions />
-          </div>
-        </CategoryContextProvider>
+      <ToastContainer />
+      <div className="w-screen h-auto pb-7 bg-basic">
+        <div className="container mx-auto flex flex-col items-center">
+          <Header />
+          <CategoryContextProvider>
+            <div className="container mx-auto flex flex-col items-center gap-3 mt-3">
+              <Categories />
+              <Transactions />
+            </div>
+          </CategoryContextProvider>
+        </div>
       </div>
-    </div>
     </>
   )
 }

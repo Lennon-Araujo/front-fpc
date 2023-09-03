@@ -5,7 +5,7 @@ import { registerLocale } from  "react-datepicker";
 import ptBr from 'date-fns/locale/pt-BR';
 import Modal from 'react-modal';
 import { X } from 'phosphor-react';
-import { UsersHttpHelper } from '../helpers/transactionsHttp';
+import { TransactionsHttpHelper } from '../helpers/transactionsHttp';
 
 import "react-datepicker/dist/react-datepicker.css";
 import { CategoryContext } from '../contexts/CategoryContext';
@@ -48,10 +48,13 @@ export function CreateTransactionModal({isOpen, closeModal}: CreateTransactionMo
     const payload = {
       ...transactionsFormData
     }
-    const response = await UsersHttpHelper.createTransaction(payload) as StatusCodeApiResponse
-       if(response.status === 201) {
-        await UsersHttpHelper.getAll()
+
+    const response = await TransactionsHttpHelper.createTransaction(payload) as StatusCodeApiResponse
+
+    if(response.status === 201) {
+        await TransactionsHttpHelper.getAll()
         toast.success("Transação criada com sucesso!")
+        setTransactionsFormData(initialFormData)
       } else {
         toast.error("Ocorreu um erro no processo.")
       }

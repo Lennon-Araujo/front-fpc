@@ -1,32 +1,35 @@
 import { Plus } from 'phosphor-react';
 import { TransactionCard } from './TransactionCard';
 import { CreateTransactionModal } from './CreateTransactionModal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { TransactionsHttpHelper } from '../helpers/transactionsHttp';
 
-interface Transactions {
+export interface TransactionsType {
   id: number;
   name: string;
+  categoryId: number;
+  when: string;
+  cost: number;
+  shared: boolean;
   created_at: string;
+  updated_at: string;
 }
 
 export function Transactions() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [transactions, setTransactions] = useState<Transactions[]>([])
+  const [transactions, setTransactions] = useState<TransactionsType[]>([])
 
 
-  // async function populateTransactions() {
-  //   const { data } = await axios.get('http://localhost:3000/transactions')
-  //   if(data.length > 0) {
-  //     setTransactions([...data])
-  //   }
-  // }
+  async function populateTransactions() {
+    const { data } = await TransactionsHttpHelper.getAll()
+    if(data.length  > 0) {
+      setTransactions([...data])
+    }
+  }
 
-  // useEffect(() => {
-  //   populateTransactions()
-  //   setTransactionsFormData(initialFormData)
-  // }, [])
-
-
+  useEffect(() => {
+    populateTransactions()
+  }, [])
 
   function handleOpenCreateTransactionModal() {
     setIsModalOpen(true);
@@ -48,17 +51,16 @@ export function Transactions() {
       </header>
       <section className="overflow-auto transition bg-basic w-full h-auto max-h-[80vh] md:max-h-[60vh] rounded-2xl ">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 p-2">
-          <TransactionCard />
-        </div>
-      </section>
-
-        {/* {
-          transactions.map(transaction => {
+        {
+          transactions.map(transaction => {     
             return (
-              <li key={transaction.id}>{transaction.name}</li>
+              <TransactionCard key={transaction.id} transaction={transaction} />
             )
           })
-        } */}
+        }
+          
+        </div>
+      </section>
       <CreateTransactionModal
         isOpen={isModalOpen}
         closeModal={onCloseCreateTransactionModal}
