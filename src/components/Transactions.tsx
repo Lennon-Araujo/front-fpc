@@ -19,7 +19,6 @@ export function Transactions() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [transactions, setTransactions] = useState<TransactionsType[]>([])
 
-
   async function populateTransactions() {
     const { data } = await TransactionsHttpHelper.getAll()
     if(data.length  > 0) {
