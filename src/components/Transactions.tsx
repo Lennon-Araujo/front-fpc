@@ -64,6 +64,7 @@ export function Transactions() {
       <CreateTransactionModal
         isOpen={isModalOpen}
         closeModal={onCloseCreateTransactionModal}
+        populateTransactions={populateTransactions}
       />
     </main>
   )

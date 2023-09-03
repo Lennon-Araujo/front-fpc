@@ -15,6 +15,7 @@ registerLocale('ptBr', ptBr)
 interface CreateTransactionModalPropsType {
   isOpen: boolean;
   closeModal: () => void;
+  populateTransactions: () => void;
 }
 
 export interface TransactionsFormData {
@@ -30,7 +31,7 @@ interface StatusCodeApiResponse {
 }
 
 Modal.setAppElement('#root');
-export function CreateTransactionModal({isOpen, closeModal}: CreateTransactionModalPropsType) {
+export function CreateTransactionModal({isOpen, closeModal, populateTransactions}: CreateTransactionModalPropsType) {
   const initialFormData = {
     name: '',
     when: new Date(),
@@ -52,12 +53,12 @@ export function CreateTransactionModal({isOpen, closeModal}: CreateTransactionMo
     const response = await TransactionsHttpHelper.createTransaction(payload) as StatusCodeApiResponse
 
     if(response.status === 201) {
-        await TransactionsHttpHelper.getAll()
-        toast.success("Transação criada com sucesso!")
-        setTransactionsFormData(initialFormData)
-      } else {
-        toast.error("Ocorreu um erro no processo.")
-      }
+      populateTransactions()
+      toast.success("Transação criada com sucesso!")
+      setTransactionsFormData(initialFormData)
+    } else {
+      toast.error("Ocorreu um erro no processo.")
+    }
   }
 
   return (
