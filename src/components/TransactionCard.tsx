@@ -37,7 +37,7 @@ export function TransactionCard( { transaction }: TransactionCardPropsType) {
           <Pencil size={20} />
           <Trash size={20} />
         </div>
-          <p className="text-md text-basic :">
+          <p className="text-md text-basic">
           {
             shared && <Users size={20} className="inline text-primary bg-secondary rounded-full p-0.5 align-sub mr-2" />
           }
