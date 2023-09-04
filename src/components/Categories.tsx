@@ -30,7 +30,7 @@ export function Categories() {
       <h1 className="text-center font-serif text-3xl text-secondary w-fit">Nova Categoria</h1>
       <form onSubmit={handleCreateCategory} className="flex flex-1 gap-4 items-center justify-start sm:justify-end">
         <input
-          className="w-auto border-none rounded p-2 bg-basic text-primary"
+          className="w-2/3 border-none rounded p-2 bg-basic text-primary"
           type="text"
           name="Category"
           id="Category"

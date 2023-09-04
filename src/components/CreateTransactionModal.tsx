@@ -73,7 +73,7 @@ export function CreateTransactionModal({isOpen, closeModal, populateTransactions
         <X onClick={closeModal} size={38} className="text-secondary hover:text-primary hover:bg-secondary transition cursor-pointer rounded-sm" />
       </header>
 
-      <div className="px-5 h-full w-full flex items-start justify-center bg-basic overflow-y-scroll">
+      <div className="px-2 sm:px-5 h-full w-full flex items-start justify-center bg-basic overflow-y-scroll">
         <form onSubmit={handleCreateTransaction} className="flex flex-col w-full max-w-sm py-3 md gap-3">
           <h2 className="w-full p-0.5 text-primary text-center text-lg">Preencha o formulário para criar uma nova transação</h2>
           <div className="w-full p-0.5 flex flex-col gap-1">
@@ -145,7 +145,7 @@ export function CreateTransactionModal({isOpen, closeModal, populateTransactions
               />
             </div>
 
-            <div className="w-full sm:w-1/2 p-0.5 flex pl-2 items-center pt-7">
+            <div className="w-1/2 p-0.5 flex pl-2 items-center pt-7">
               <input
                 type="checkbox"
                 name="shared"
@@ -153,7 +153,7 @@ export function CreateTransactionModal({isOpen, closeModal, populateTransactions
                 checked={transactionsFormData.shared}
                 onChange={(event) => setTransactionsFormData((prevState) => ({...prevState, shared: event.target.checked}))}
               />
-              <label htmlFor="shared" className="text-primary text-sm pl-3">Este custo será compartilhado?</label>
+              <label htmlFor="shared" className="text-primary text-xs md:text-sm pl-3">Este custo será compartilhado?</label>
             </div>
           </div>
 
