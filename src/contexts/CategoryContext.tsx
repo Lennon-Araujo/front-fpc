@@ -23,7 +23,7 @@ export function CategoryContextProvider({ children }: CategoryContextPropsType) 
 
 
   async function populateCategories() {
-    const { data } = await axios.get('http://localhost:3000/category')
+    const { data } = await axios.get('https://finance-personal-control.onrender.com/category')
     if(data.length > 0) {
       setCategories([...data])
     }
@@ -39,7 +39,7 @@ export function CategoryContextProvider({ children }: CategoryContextPropsType) 
       name: categoryName
     }
     try {
-      const response = await axios.post('http://localhost:3000/category', payload)
+      const response = await axios.post('https://finance-personal-control.onrender.com/category', payload)
       if(response.status === 201) {
         populateCategories()
         return response.status
