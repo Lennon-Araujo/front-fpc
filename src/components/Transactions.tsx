@@ -53,7 +53,7 @@ export function Transactions() {
         {
           transactions.map(transaction => {     
             return (
-              <TransactionCard key={transaction.id} transaction={transaction} />
+              <TransactionCard key={transaction.id} transaction={transaction} populateTransactions={populateTransactions} />
             )
           })
         }

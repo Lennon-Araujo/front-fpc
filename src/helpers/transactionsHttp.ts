@@ -20,4 +20,13 @@ export class TransactionsHttpHelper {
       .catch(reject)
     })
   }
+
+  static async delete(id: number) {
+    try {
+      return await api.delete(`/transactions/${id}`)
+    } catch (err) {
+    error("Erro: Busca de transações")
+      throw new Error()
+    }
+  }
 }
