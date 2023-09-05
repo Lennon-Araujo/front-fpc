@@ -30,14 +30,30 @@ export function success(message: string) {
     });
 }
 
-export function loading(message: string) {
-  return toast.loading(message);
+export function loading() {
+  return toast.loading("Aguarde um momento...");
 }
 
-export function updateToast(loading: number) {
+export function updateSuccessToast(loading: number) {
   toast.update(loading, {
-    render: "Transação deletada com sucesso!",
+    render: "Processo concluído com sucesso!",
     type: 'success',
+    isLoading: false,
+    position: "top-right",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+  })
+}
+
+export function updateErrorToast(loading: number) {
+  toast.update(loading, {
+    render: "Ocorreu um erro inesperado.",
+    type: 'error',
     isLoading: false,
     position: "top-right",
     autoClose: 3000,

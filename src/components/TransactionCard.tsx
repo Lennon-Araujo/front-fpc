@@ -27,12 +27,14 @@ export function TransactionCard( { transaction, populateTransactions }: Transact
   const categoryName = category ? category.name : 'sem categoria';
 
   async function handleDeleteTransaction() {
-    const loading = myToast.loading("sadasd")
+    const loading = myToast.loading()
     const response = await TransactionsHttpHelper.delete(id)
 
     if(response.status === 200) {
       populateTransactions()
-      myToast.updateToast(loading as number)
+      myToast.updateSuccessToast(loading as number)
+    } else {
+      myToast.updateErrorToast(loading as number)
     }
   }
 

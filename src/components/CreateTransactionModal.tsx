@@ -9,7 +9,7 @@ import { TransactionsHttpHelper } from '../helpers/transactionsHttp';
 
 import "react-datepicker/dist/react-datepicker.css";
 import { CategoryContext } from '../contexts/CategoryContext';
-import * as toast from '../helpers/toast';
+import * as myToast from '../helpers/toast';
 registerLocale('ptBr', ptBr)
 
 interface CreateTransactionModalPropsType {
@@ -49,15 +49,15 @@ export function CreateTransactionModal({isOpen, closeModal, populateTransactions
     const payload = {
       ...transactionsFormData
     }
-
+    const loading = myToast.loading()
     const response = await TransactionsHttpHelper.createTransaction(payload) as StatusCodeApiResponse
 
     if(response.status === 201) {
       populateTransactions()
-      toast.success("Transação criada com sucesso!")
+      myToast.updateSuccessToast(loading as number)
       setTransactionsFormData(initialFormData)
     } else {
-      toast.error("Ocorreu um erro no processo.")
+      myToast.updateSuccessToast(loading as number)
     }
   }
 

@@ -20,9 +20,13 @@ export function Transactions() {
   const [transactions, setTransactions] = useState<TransactionsType[]>([])
 
   async function populateTransactions() {
-    const { data } = await TransactionsHttpHelper.getAll()
-    if(data.length  > 0) {
-      setTransactions([...data])
+    const { data, status } = await TransactionsHttpHelper.getAll()
+    if(status === 200) {
+      if(data.length  > 0) {
+        setTransactions([...data])
+      } else {
+        setTransactions([])
+      }
     }
   }
 
