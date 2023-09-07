@@ -1,5 +1,5 @@
 import { api } from './axios'
-import { TransactionsFormData } from '../components/CreateTransactionModal'
+import { TransactionsFormData } from '../components/TransactionModal'
 import { error } from './toast'
 
 export class TransactionsHttpHelper {
@@ -13,12 +13,22 @@ export class TransactionsHttpHelper {
     }
   }
 
-  static createTransaction(payload: TransactionsFormData) {
-    return new Promise((resolve, reject) => {
-      api.post('/transactions', payload)
-      .then(resolve)
-      .catch(reject)
-    })
+  static async createTransaction(payload: TransactionsFormData) {
+    try {
+      return await api.post('/transactions', payload)
+    } catch (err) {
+    error("Erro: Busca de transações")
+      throw new Error()
+    }
+  }
+
+  static async updateTransaction(id: number, payload: TransactionsFormData) {
+    try {
+      return await api.patch(`/transactions/${id}`, payload)
+    } catch (err) {
+    error("Erro: Busca de transações")
+      throw new Error()
+    }
   }
 
   static async delete(id: number) {

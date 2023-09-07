@@ -1,5 +1,5 @@
 import { Pencil, Trash, Users } from "phosphor-react";
-import { TransactionsType } from "../components/Transactions"
+import { TransactionContext, TransactionsType } from "../components/Transactions"
 import { format } from "date-fns";
 import { useContext } from "react";
 import { CategoryContext } from "../contexts/CategoryContext";
@@ -13,6 +13,8 @@ interface TransactionCardPropsType {
 
 export function TransactionCard( { transaction, populateTransactions }: TransactionCardPropsType) {
   
+  const { onUpdatingTransaction } = useContext(TransactionContext)
+
   const {
     id,
     categoryId,
@@ -21,6 +23,8 @@ export function TransactionCard( { transaction, populateTransactions }: Transact
     name,
     shared
   } = transaction;
+
+
   
   const { categories } = useContext(CategoryContext)
   const category = categories.find((category) => category.id === categoryId)
@@ -38,6 +42,10 @@ export function TransactionCard( { transaction, populateTransactions }: Transact
     }
   }
 
+  async function handleUpdateTransaction() {
+    onUpdatingTransaction(transaction)
+  }
+
   return (
     <div key={id} className="flex gap-3 p-3 bg-primary flex-1 justify-between h-auto rounded-2xl">
       <div className="w-2/3 flex flex-col justify-between text-left">
@@ -49,7 +57,7 @@ export function TransactionCard( { transaction, populateTransactions }: Transact
       </div>
       <div className="w-full text-right flex flex-col justify-between">
         <div className="text-basic flex justify-end gap-2">
-          <button>
+          <button onClick={handleUpdateTransaction}>
             <Pencil size={20} />
           </button>
           <button onClick={handleDeleteTransaction}>

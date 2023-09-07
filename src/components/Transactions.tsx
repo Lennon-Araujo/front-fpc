@@ -1,23 +1,34 @@
 import { Plus } from 'phosphor-react';
 import { TransactionCard } from './TransactionCard';
-import { CreateTransactionModal } from './CreateTransactionModal';
-import { useEffect, useState } from 'react';
+import { TransactionModal } from './TransactionModal';
+import { createContext, useEffect, useState } from 'react';
 import { TransactionsHttpHelper } from '../helpers/transactionsHttp';
 
 export interface TransactionsType {
   id: number;
   name: string;
-  categoryId: number;
-  when: string;
+  when: Date;
   cost: number;
+  categoryId: number;
   shared: boolean;
   created_at: string;
   updated_at: string;
 }
 
+interface TransactionContextType {
+  transactions: TransactionsType[];
+  updatingTransaction: TransactionsType | null;
+  handleOpenTransactionModal: () => void;
+  onUpdatingTransaction: (transaction: TransactionsType) => void;
+  onFinishUpdatingTransaction: () => void;
+}
+
+export const TransactionContext = createContext({} as TransactionContextType)
+
 export function Transactions() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [transactions, setTransactions] = useState<TransactionsType[]>([])
+  const [updatingTransaction, setUpdatingTransaction] = useState<TransactionsType | null>(null)
 
   async function populateTransactions() {
     const { data, status } = await TransactionsHttpHelper.getAll()
@@ -34,12 +45,22 @@ export function Transactions() {
     populateTransactions()
   }, [])
 
-  function handleOpenCreateTransactionModal() {
+  function handleOpenTransactionModal() {
     setIsModalOpen(true);
   }
 
-  function onCloseCreateTransactionModal() {
+  function onCloseTransactionModal() {
     setIsModalOpen(false);
+  }
+  
+  function onUpdatingTransaction(transaction: TransactionsType) {
+    setUpdatingTransaction((state) => ({state, ...transaction}));
+    handleOpenTransactionModal()
+  }
+
+  function onFinishUpdatingTransaction() {
+    setUpdatingTransaction(null)
+    onCloseTransactionModal()
   }
 
   return (
@@ -50,25 +71,36 @@ export function Transactions() {
         >
           Transações
         </h1>
-        <Plus size={38} className="text-secondary hover:text-primary cursor-pointer hover:bg-secondary rounded-sm transition " onClick={handleOpenCreateTransactionModal} />
+        <Plus size={38} className="text-secondary hover:text-primary cursor-pointer hover:bg-secondary rounded-sm transition " onClick={handleOpenTransactionModal} />
       </header>
+      <TransactionContext.Provider
+        value={{
+          transactions,
+          updatingTransaction,
+          handleOpenTransactionModal,
+          onUpdatingTransaction,
+          onFinishUpdatingTransaction
+        }}
+      >
+
       <section className="overflow-auto transition bg-basic w-full h-auto max-h-[80vh] md:max-h-[60vh] rounded-2xl ">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 p-2">
         {
           transactions.map(transaction => {     
             return (
               <TransactionCard key={transaction.id} transaction={transaction} populateTransactions={populateTransactions} />
-            )
-          })
-        }
+              )
+            })
+          }
           
         </div>
       </section>
-      <CreateTransactionModal
+      <TransactionModal
         isOpen={isModalOpen}
-        closeModal={onCloseCreateTransactionModal}
+        closeModal={onCloseTransactionModal}
         populateTransactions={populateTransactions}
-      />
+        />
+      </TransactionContext.Provider>
     </main>
   )
 }
