@@ -50,6 +50,8 @@ export function TransactionModal({isOpen, closeModal, populateTransactions }: Tr
   const { categories } = useContext(CategoryContext);
 
   useEffect(() => {
+    setTransactionsFormData(initialFormData)
+
     if(updatingTransaction) {
       const { name, when, cost, shared, categoryId } = updatingTransaction;
       setTransactionsFormData({
