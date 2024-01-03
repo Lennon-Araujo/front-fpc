@@ -25,7 +25,7 @@ export interface TransactionsFormData {
   name: string;
   when: Date | null;
   cost: number | null;
-  categoryId: number;
+  categoryId: string;
   shared: boolean;
 }
 
@@ -35,7 +35,7 @@ const initialFormData = {
   name: '',
   when: new Date(),
   cost: null,
-  categoryId: 0,
+  categoryId: "",
   shared: false
 } as TransactionsFormData
 
@@ -45,7 +45,7 @@ export function TransactionModal({isOpen, closeModal, populateTransactions }: Tr
   const {updatingTransaction, onFinishUpdatingTransaction} = useContext(TransactionContext)
   
   const [transactionsFormData, setTransactionsFormData] = useState<TransactionsFormData>(initialFormData)
-  const [selectedCategory, setSelectedCategory] = useState(0)
+  const [selectedCategory, setSelectedCategory] = useState("")
   const isDisabled = !!transactionsFormData.name && !!transactionsFormData.cost && !!transactionsFormData.categoryId && !!transactionsFormData.when
   const { categories } = useContext(CategoryContext);
 
@@ -224,10 +224,10 @@ export function TransactionModal({isOpen, closeModal, populateTransactions }: Tr
                 placeholder:text-primary/30
                 ${transactionsFormData.categoryId && 'bg-primary'}`
               }
-              onChange={(event) => setTransactionsFormData((prevState) => ({...prevState, categoryId: Number(event.target.value)}))}
+              onChange={(event) => setTransactionsFormData((prevState) => ({...prevState, categoryId: event.target.value}))}
             >
               <option selected={!!selectedCategory} value={0}>Selecione...</option>
-              {
+              {                
                 categories.map((category) => {
                   return (
                     <option
@@ -386,7 +386,8 @@ export function TransactionModal({isOpen, closeModal, populateTransactions }: Tr
                 placeholder:text-primary/30
                 ${transactionsFormData.categoryId && 'bg-primary'}`
               }
-              onChange={(event) => setTransactionsFormData((prevState) => ({...prevState, categoryId: Number(event.target.value)}))}
+              onChange={(event) => setTransactionsFormData((prevState) => ({...prevState, categoryId: event.target.value}))}
+              // onChange={(event) => console.log(event.target.value, transactionsFormData.categoryId)}
             >
               <option value={0}>Selecione...</option>
               {

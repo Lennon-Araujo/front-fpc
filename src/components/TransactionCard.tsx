@@ -34,7 +34,7 @@ export function TransactionCard( { transaction, populateTransactions }: Transact
     const loading = myToast.loading()
     const response = await TransactionsHttpHelper.delete(id)
 
-    if(response.status === 200) {
+    if(response.status === 204) {
       populateTransactions()
       myToast.updateSuccessToast(loading as number)
     } else {

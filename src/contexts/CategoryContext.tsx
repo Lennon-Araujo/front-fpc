@@ -1,5 +1,5 @@
-import axios from "axios";
 import { ReactNode, createContext, useEffect, useState } from "react";
+import { api } from "../helpers/axios";
 
 interface CategoryContextType {
   categories: Category[];
@@ -7,7 +7,7 @@ interface CategoryContextType {
 }
 
 interface Category {
-  id: number;
+  id: string;
   name: string;
   created_at: string;
 }
@@ -23,7 +23,8 @@ export function CategoryContextProvider({ children }: CategoryContextPropsType) 
 
 
   async function populateCategories() {
-    const { data } = await axios.get('https://finance-personal-control.onrender.com/category')
+    const { data } = await api.get('/category')
+    
     if(data.length > 0) {
       setCategories([...data])
     }
@@ -39,7 +40,7 @@ export function CategoryContextProvider({ children }: CategoryContextPropsType) 
       name: categoryName
     }
     try {
-      const response = await axios.post('https://finance-personal-control.onrender.com/category', payload)
+      const response = await api.post('/category', payload)
       if(response.status === 201) {
         populateCategories()
         return response.status

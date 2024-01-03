@@ -9,7 +9,7 @@ export interface TransactionsType {
   name: string;
   when: Date;
   cost: number;
-  categoryId: number;
+  categoryId: string;
   shared: boolean;
   created_at: string;
   updated_at: string;
