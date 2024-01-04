@@ -97,7 +97,7 @@ export function TransactionModal({isOpen, closeModal, populateTransactions }: Tr
     if(updatingTransaction?.id) {
       const response = await TransactionsHttpHelper.updateTransaction(updatingTransaction.id ,payload)
   
-      if(response.status === 200) {
+      if(response.status === 204) {
         populateTransactions()
         myToast.updateSuccessToast(loading as number)
         setTransactionsFormData(initialFormData)
