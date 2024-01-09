@@ -24,8 +24,8 @@ export function CategoryContextProvider({ children }: CategoryContextPropsType) 
 
 
   async function populateCategories() {
-    const { data } = await api.get('/category', {headers: httpHeadersFactory()})
-    
+    const { data } = await api.get('/category', { headers: httpHeadersFactory() })
+
     if(data.length > 0) {
       setCategories([...data])
     }
@@ -41,7 +41,7 @@ export function CategoryContextProvider({ children }: CategoryContextPropsType) 
       name: categoryName
     }
     try {
-      const response = await api.post('/category', payload)
+      const response = await api.post('/category', payload, { headers: httpHeadersFactory() })
       if(response.status === 201) {
         populateCategories()
         return response.status

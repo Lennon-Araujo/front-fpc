@@ -33,7 +33,8 @@ export function SignIn() {
     try {
       const response = await api.post('/sessions', payload)
       if(response.status === 200) {
-        navigate('/dashboard')
+        navigate('/dashboard')        
+        localStorage.setItem('token', response.data.token)
         myToast.updateSuccessToast(loading as number)
       }
     } catch (err) {
