@@ -1,5 +1,6 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
 import { api } from "../helpers/axios";
+import { httpHeadersFactory } from "../factory/http.factory";
 
 interface CategoryContextType {
   categories: Category[];
@@ -23,7 +24,7 @@ export function CategoryContextProvider({ children }: CategoryContextPropsType) 
 
 
   async function populateCategories() {
-    const { data } = await api.get('/category')
+    const { data } = await api.get('/category', {headers: httpHeadersFactory()})
     
     if(data.length > 0) {
       setCategories([...data])
