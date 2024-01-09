@@ -50,9 +50,9 @@ export function updateSuccessToast(loading: number) {
   })
 }
 
-export function updateErrorToast(loading: number) {
+export function updateErrorToast(loading: number, message = "Ocorreu um erro inesperado.") {
   toast.update(loading, {
-    render: "Ocorreu um erro inesperado.",
+    render: message,
     type: 'error',
     isLoading: false,
     position: "top-right",

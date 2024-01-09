@@ -83,7 +83,7 @@ export function TransactionModal({isOpen, closeModal, populateTransactions }: Tr
       myToast.updateSuccessToast(loading as number)
       setTransactionsFormData(initialFormData)
     } else {
-      myToast.updateSuccessToast(loading as number)
+      myToast.updateErrorToast(loading as number)
     }
   }
 
