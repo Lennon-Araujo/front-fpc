@@ -144,7 +144,7 @@ export function SignUp() {
           </button>
         </form>
         
-        <Link className="text-primary text-sm md:text-base underline" to={'/signup'}>Already registered? Sign In.</Link>
+        <Link className="text-primary text-sm md:text-base underline" to={'/signin'}>Already registered? Sign In.</Link>
 
       </div>
     </>

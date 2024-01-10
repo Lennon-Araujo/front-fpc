@@ -31,7 +31,7 @@ export function SignIn() {
     setSubmitDisabled(true)
 
     try {
-      const response = await api.post('/sessions', payload)
+      const response = await api.post('/sessions', payload, {headers: {"Content-Type": "application/json"}, withCredentials: true})
       if(response.status === 200) {
         navigate('/dashboard')        
         localStorage.setItem('token', response.data.token)
