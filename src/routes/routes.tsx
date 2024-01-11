@@ -4,18 +4,29 @@ import { SignIn } from '../views/SignIn.tsx'
 import { Route, Routes, Navigate } from 'react-router-dom'
 import { PrivateRoute } from './privateRoute.tsx'
 import { ErrorPage } from '../views/ErrorPage.tsx'
+import { checkAuth } from '../helpers/checkAuth.ts'
 
 export function AppRouter() {
   return (
     <Routes>
       <Route path='/' element={ <Navigate to={'/signup'} />} />
-      <Route path='/signup' element={<SignUp />} />
-      <Route path='/signin' element={<SignIn />} />
+      <Route path='/*' element={ <ErrorPage />} />
+      <Route
+        path='/signup'
+        element={
+          checkAuth() ? <Navigate to="/dashboard" /> : <SignUp />}
+        />
+      <Route
+        path='/signin'
+        element={
+          checkAuth() ? <Navigate to="/dashboard" /> : <SignIn />
+        }
+      />
       <Route path='/404' element={<ErrorPage />} />
       <Route
         path='/dashboard'
         element={
-          <PrivateRoute redirectTo='/signin'>
+          <PrivateRoute redirectTo='/signin' checkAuth={checkAuth()}>
             <Home />
           </PrivateRoute>
         }

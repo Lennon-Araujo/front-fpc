@@ -1,70 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { api } from '../helpers/axios';
-import { jwtDecode } from 'jwt-decode';
-
-interface Jwt {
-  exp?: number;
-}
+import { getNewAccessToken } from '../helpers/getNewAccessToken';
 
 interface PrivateRouteProps {
   children: React.ReactNode;
   redirectTo: string;
+  checkAuth: boolean
 }
 
-export function PrivateRoute({ children, redirectTo }: PrivateRouteProps) {
+export function PrivateRoute({ children, redirectTo, checkAuth }: PrivateRouteProps) {
   const [isValid, setIsValid] = useState<boolean | null>(null);
 
-  
   useEffect(() => {
-    const checkTokenValidity = async () => {
-      const accessToken = localStorage.getItem('token');
-      
-      if (!accessToken) {
-        setIsValid(false);
-        return;
-      }
-      
-      try {
-        const decodedToken: Jwt = jwtDecode(accessToken);
-        
-        const currentTimestamp = Math.floor(Date.now() / 1000);
-        if (decodedToken.exp && decodedToken.exp < currentTimestamp) {
-          const newAccessToken = await getNewAccessToken();
-          localStorage.setItem('token', newAccessToken);
-          setIsValid(true);
-        } else {
-          setIsValid(true);
-        }
-      } catch (error) {
-        console.error('Erro ao decodificar o token:', error);
-        setIsValid(false);
-      }
-    };
+    if(!checkAuth) {
+      setIsValid(false)
+    }
 
-    checkTokenValidity();
-  }, [redirectTo]);
+    async function setNewAccessToken() {
+      const newAccessToken = await getNewAccessToken()
+      if(newAccessToken === "Error") {
+        setIsValid(false)
+      } else {
+        localStorage.setItem("token", newAccessToken)
+        setIsValid(true)
+      }
+    }
+
+    setNewAccessToken()
+  }, [checkAuth]);
 
   if (isValid === null) {
-    // Pode exibir um carregando ou algo enquanto a verificação está em andamento
     return null;
   }
 
   return isValid ? (<>{children}</>) : <Navigate to={redirectTo} />;
-}
-
-async function getNewAccessToken(): Promise<string> {
-  try {
-    const response = await api.post('/refresh-token', {}, {headers: {"Content-Type": "application/json"}, withCredentials: true});
-    
-    if (response.data && response.data.token) {
-      return response.data.token;
-    } else {
-      throw new Error('Resposta inválida ao solicitar novo token de acesso');
-    }
-  } catch (error) {
-    console.error('Erro ao solicitar novo token de acesso:', error);
-    // Trate o erro de forma adequada para o seu caso de uso, se necessário
-    throw error;
-  }
 }
