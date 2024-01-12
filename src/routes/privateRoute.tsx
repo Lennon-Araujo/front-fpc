@@ -8,16 +8,13 @@ interface PrivateRouteProps {
   checkAuth: boolean
 }
 
-export function PrivateRoute({ children, redirectTo, checkAuth }: PrivateRouteProps) {
+export function PrivateRoute({ children, redirectTo }: PrivateRouteProps) {
   const [isValid, setIsValid] = useState<boolean | null>(null);
 
   useEffect(() => {
-    if(!checkAuth) {
-      setIsValid(false)
-    }
-
     async function setNewAccessToken() {
       const newAccessToken = await getNewAccessToken()
+
       if(newAccessToken === "Error") {
         setIsValid(false)
       } else {
@@ -27,7 +24,7 @@ export function PrivateRoute({ children, redirectTo, checkAuth }: PrivateRoutePr
     }
 
     setNewAccessToken()
-  }, [checkAuth]);
+  }, []);
 
   if (isValid === null) {
     return null;

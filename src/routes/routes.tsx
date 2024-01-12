@@ -7,6 +7,7 @@ import { ErrorPage } from '../views/ErrorPage.tsx'
 import { checkAuth } from '../helpers/checkAuth.ts'
 
 export function AppRouter() {
+  const auth = checkAuth()
   return (
     <Routes>
       <Route path='/' element={ <Navigate to={'/signup'} />} />
@@ -14,19 +15,19 @@ export function AppRouter() {
       <Route
         path='/signup'
         element={
-          checkAuth() ? <Navigate to="/dashboard" /> : <SignUp />}
+          auth ? <Navigate to="/dashboard" /> : <SignUp />}
         />
       <Route
         path='/signin'
         element={
-          checkAuth() ? <Navigate to="/dashboard" /> : <SignIn />
+          auth ? <Navigate to="/dashboard" /> : <SignIn />
         }
       />
       <Route path='/404' element={<ErrorPage />} />
       <Route
         path='/dashboard'
         element={
-          <PrivateRoute redirectTo='/signin' checkAuth={checkAuth()}>
+          <PrivateRoute redirectTo='/signin' checkAuth={auth} >
             <Home />
           </PrivateRoute>
         }
