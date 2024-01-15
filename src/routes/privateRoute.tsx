@@ -5,7 +5,6 @@ import { getNewAccessToken } from '../helpers/getNewAccessToken';
 interface PrivateRouteProps {
   children: React.ReactNode;
   redirectTo: string;
-  checkAuth: boolean
 }
 
 export function PrivateRoute({ children, redirectTo }: PrivateRouteProps) {

@@ -228,14 +228,14 @@ export function TransactionModal({isOpen, closeModal, populateTransactions }: Tr
               }
               onChange={(event) => setTransactionsFormData((prevState) => ({...prevState, categoryId: event.target.value}))}
             >
-              <option selected={!!selectedCategory} value={0}>Selecione...</option>
+              <option aria-selected={!!selectedCategory} value={0}>Selecione...</option>
               {                
                 categories.map((category) => {
                   return (
                     <option
                       key={category.id}
                       value={category.id}
-                      selected={category.id === selectedCategory ?? true}
+                      aria-selected={category.id === selectedCategory ?? true}
                     >
                       {category.name}
                     </option>
@@ -389,7 +389,6 @@ export function TransactionModal({isOpen, closeModal, populateTransactions }: Tr
                 ${transactionsFormData.categoryId && 'bg-primary'}`
               }
               onChange={(event) => setTransactionsFormData((prevState) => ({...prevState, categoryId: event.target.value}))}
-              // onChange={(event) => console.log(event.target.value, transactionsFormData.categoryId)}
             >
               <option value={0}>Selecione...</option>
               {

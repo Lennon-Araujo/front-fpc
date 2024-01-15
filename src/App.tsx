@@ -8,14 +8,14 @@ function App() {
   return (
     <>
       <ToastContainer />
-      <div className="w-screen h-auto pb-7 bg-basic">
-        <div className="container mx-auto flex flex-col items-center">
-          <Header />
-          <BrowserRouter>
-            <AppRouter />
-          </BrowserRouter>
+      <BrowserRouter>
+        <div className="w-screen h-auto pb-7 bg-basic">
+          <div className="container mx-auto flex flex-col items-center">
+            <Header />
+              <AppRouter />
+          </div>
         </div>
-      </div>
+      </BrowserRouter>
     </>
   )
 }

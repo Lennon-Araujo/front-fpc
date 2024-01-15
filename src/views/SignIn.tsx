@@ -35,7 +35,7 @@ export function SignIn() {
       if(response.status === 200) {
         localStorage.setItem('token', response.data.token)
         myToast.updateSuccessToast(loading as number)
-        navigate('/dashboard')        
+        navigate('/dashboard', { replace: true })        
       }
     } catch (err) {
       if (err instanceof AxiosError) {
