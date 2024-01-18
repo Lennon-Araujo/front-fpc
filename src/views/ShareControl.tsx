@@ -50,8 +50,8 @@ export function ShareControl() {
       <p className="max-w-fit peer-hover:hidden text-center text-sm font-mono text-secondary transition duration-300">
         Here you can control who you share transactions with.
       </p>
-      <form onSubmit={handleShareControl} method="post" className="flex justify-between items-center gap-2">
-        <div className="w-auto p-0.5 flex flex-col gap-1">
+      <form onSubmit={handleShareControl} method="post" className="flex flex-col sm:flex-row justify-between items-center gap-2">
+        <div className="w-auto max-w-full p-0.5 flex flex-col gap-1">
           <label htmlFor="email" className="hidden">Email</label>
           <input
             type="email"
