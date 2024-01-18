@@ -32,12 +32,11 @@ export function TransactionCard( { transaction, populateTransactions }: Transact
 
   async function handleDeleteTransaction() {
     const loading = myToast.loading()
-    const response = await TransactionsHttpHelper.delete(id)
-
-    if(response.status === 204) {
+    try {
+      await TransactionsHttpHelper.delete(id)
       populateTransactions()
       myToast.updateSuccessToast(loading as number)
-    } else {
+    } catch (error) {
       myToast.updateErrorToast(loading as number)
     }
   }

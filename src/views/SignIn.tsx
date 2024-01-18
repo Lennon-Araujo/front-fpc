@@ -32,11 +32,9 @@ export function SignIn() {
 
     try {
       const response = await api.post('/sessions', payload, {headers: {"Content-Type": "application/json"}, withCredentials: true})
-      if(response.status === 200) {
-        localStorage.setItem('token', response.data.token)
-        myToast.updateSuccessToast(loading as number)
-        navigate('/dashboard', { replace: true })        
-      }
+      localStorage.setItem('token', response.data.token)
+      myToast.updateSuccessToast(loading as number)
+      navigate('/dashboard', { replace: true })        
     } catch (err) {
       if (err instanceof AxiosError) {
         setSubmitDisabled(false)

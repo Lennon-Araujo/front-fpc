@@ -33,11 +33,9 @@ export function SignUp() {
     setSubmitDisabled(true)
 
     try {
-      const response = await api.post('/users/register', payload)
-      if(response.status === 201) {
-        navigate('/signin')
-        myToast.updateSuccessToast(loading as number)
-      }
+      await api.post('/users/register', payload)
+      navigate('/signin')
+      myToast.updateSuccessToast(loading as number)
     } catch (err) {
       if (err instanceof AxiosError) {
         setSubmitDisabled(false)

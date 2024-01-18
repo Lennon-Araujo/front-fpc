@@ -76,13 +76,12 @@ export function TransactionModal({isOpen, closeModal, populateTransactions }: Tr
       ...transactionsFormData
     }
     const loading = myToast.loading()
-    const response = await TransactionsHttpHelper.createTransaction(payload)
-
-    if(response.status === 201) {
+    try {
+      await TransactionsHttpHelper.createTransaction(payload)
       populateTransactions()
       myToast.updateSuccessToast(loading as number)
       setTransactionsFormData(initialFormData)
-    } else {
+    } catch (error) {
       myToast.updateErrorToast(loading as number)
     }
   }
@@ -95,14 +94,13 @@ export function TransactionModal({isOpen, closeModal, populateTransactions }: Tr
     const loading = myToast.loading()
 
     if(updatingTransaction?.id) {
-      const response = await TransactionsHttpHelper.updateTransaction(updatingTransaction.id ,payload)
-  
-      if(response.status === 204) {
+      try {
+        await TransactionsHttpHelper.updateTransaction(updatingTransaction.id ,payload)
         populateTransactions()
         myToast.updateSuccessToast(loading as number)
         setTransactionsFormData(initialFormData)
         onFinishUpdatingTransaction()
-      } else {
+      } catch (error) {
         myToast.updateErrorToast(loading as number)
       }
     }

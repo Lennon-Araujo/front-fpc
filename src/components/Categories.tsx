@@ -16,12 +16,13 @@ export function Categories() {
   async function handleCreateCategory(event: FormEvent) {
     event.preventDefault()
     const loading = myToast.loading()
-    const response = await onCreateCategory(categoryFormName)
-    if(response === 201) {
+    try {
+      await onCreateCategory(categoryFormName)
       setCategoryFormName('')
       myToast.updateSuccessToast(loading as number, "Categoria criada com sucesso!")
-    } else {
+    } catch (error) {
       myToast.updateErrorToast(loading as number, "Ocorreu um erro no processo.")
+      
     }
   }
 
