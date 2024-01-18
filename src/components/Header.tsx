@@ -11,7 +11,7 @@ export function Header() {
   const currentUrlPath = useLocation();
   
   useEffect(() => {
-    if (currentUrlPath.pathname === '/dashboard') {      
+    if (currentUrlPath.pathname === '/dashboard' || currentUrlPath.pathname === '/share-control') {      
       setOptionsBar(true)
     } else {setOptionsBar(false)}
   }, [currentUrlPath])
