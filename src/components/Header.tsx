@@ -40,10 +40,10 @@ export function Header() {
 
   return (
     <header className="bg-primary w-full h-28 flex items-center justify-center">
-      <div className="bg-primary w-4/5 h-28 flex items-center justify-center">
-        <div className="w-1/4">
+      <div className="bg-primary w-full p-1 md:w-4/5 h-28 flex items-center justify-center">
+        <div className="w-1/6">
         </div>
-        <div className="h-28 w-2/4 flex flex-col items-center justify-center">
+        <div className="h-28 w-4/6 flex flex-col items-center justify-center">
           <div className="text-center font-serif text-6xl text-secondary mt-5">
             <a href="/">
               Finance
@@ -54,7 +54,7 @@ export function Header() {
         {
         optionsBar
           ?
-        <div className="h-full w-1/4 flex items-center justify-end gap-1">
+        <div className="h-full w-1/6 flex items-center justify-end gap-1">
           <button className="p-1" onClick={handleShareControl}>
             <Gear size={24} weight="bold" className="text-secondary" />
           </button>
@@ -63,7 +63,7 @@ export function Header() {
           </button>
         </div>
           :
-          <div className="h-full w-1/4 flex items-center justify-end gap-1">
+          <div className="h-full w-1/6 flex items-center justify-end gap-1">
             <button className="p-1">
               <User size={24} weight="bold" className="text-secondary" onClick={handleSignIn} />
             </button>
