@@ -22,7 +22,6 @@ export function Categories() {
       myToast.updateSuccessToast(loading as number, "Categoria criada com sucesso!")
     } catch (error) {
       myToast.updateErrorToast(loading as number, "Ocorreu um erro no processo.")
-      
     }
   }
 

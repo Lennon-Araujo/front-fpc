@@ -15,6 +15,7 @@ export function checkAuth() {
   
   const currentTimestamp = Math.floor(Date.now() / 1000);
   if (decodedToken.exp && decodedToken.exp < currentTimestamp) {
+    localStorage.removeItem('token')
     return false
   } else {
     return true
