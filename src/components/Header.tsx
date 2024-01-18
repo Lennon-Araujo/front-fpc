@@ -33,6 +33,11 @@ export function Header() {
       new Error("Error on logout!")
     }
   }
+
+  function handleShareControl() {
+    navigate('/share-control')
+  }
+
   return (
     <header className="bg-primary w-full h-28 flex items-center justify-center">
       <div className="bg-primary w-4/5 h-28 flex items-center justify-center">
@@ -50,21 +55,22 @@ export function Header() {
         optionsBar
           ?
         <div className="h-full w-1/4 flex items-center justify-end gap-1">
-          <button className="p-1 cursor-pointer">
+          <button className="p-1" onClick={handleShareControl}>
             <Gear size={24} weight="bold" className="text-secondary" />
           </button>
-          <button className="p-1 cursor-pointer" onClick={handleSignOut}>
+          <button className="p-1" onClick={handleSignOut}>
             <SignOut size={24} weight="bold" className="text-secondary" />
           </button>
         </div>
           :
           <div className="h-full w-1/4 flex items-center justify-end gap-1">
-            <button className="p-1 cursor-pointer">
+            <button className="p-1">
               <User size={24} weight="bold" className="text-secondary" onClick={handleSignIn} />
             </button>
           </div>
           }
       </div>
     </header>
+
   )
 }

@@ -3,8 +3,6 @@ import { Transactions } from "../components/Transactions";
 import { CategoryContextProvider } from "../contexts/CategoryContext";
 
 export function Home() {
-
-
   return (
     <>
       <CategoryContextProvider>

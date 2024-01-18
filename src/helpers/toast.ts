@@ -34,9 +34,9 @@ export function loading() {
   return toast.loading("Aguarde um momento...");
 }
 
-export function updateSuccessToast(loading: number) {
+export function updateSuccessToast(loading: number, message = "Processo concluído com sucesso!") {
   toast.update(loading, {
-    render: "Processo concluído com sucesso!",
+    render: message,
     type: 'success',
     isLoading: false,
     position: "top-right",

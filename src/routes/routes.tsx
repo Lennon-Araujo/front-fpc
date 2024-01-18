@@ -5,6 +5,7 @@ import { Route, Routes, Navigate } from 'react-router-dom'
 import { PrivateRoute } from './privateRoute.tsx'
 import { ErrorPage } from '../views/ErrorPage.tsx'
 import { checkAuth } from '../helpers/checkAuth.ts'
+import { ShareControl } from '../views/ShareControl.tsx'
 
 export function AppRouter() {
   function isAuth() {
@@ -32,6 +33,14 @@ export function AppRouter() {
         element={
           <PrivateRoute redirectTo='/signin' >
             <Home />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path='/share-control'
+        element={
+          <PrivateRoute redirectTo='/signin' >
+            <ShareControl />
           </PrivateRoute>
         }
       />

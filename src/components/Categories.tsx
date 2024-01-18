@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { CategoryContext } from "../contexts/CategoryContext";
-import * as toast from "../helpers/toast";
+import * as myToast from "../helpers/toast";
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -15,13 +15,13 @@ export function Categories() {
 
   async function handleCreateCategory(event: FormEvent) {
     event.preventDefault()
+    const loading = myToast.loading()
     const response = await onCreateCategory(categoryFormName)
     if(response === 201) {
       setCategoryFormName('')
-      toast.success("Categoria criada com sucesso!")
+      myToast.updateSuccessToast(loading as number, "Categoria criada com sucesso!")
     } else {
-      toast.error("Ocorreu um erro no processo.")
-      console.log(response)
+      myToast.updateErrorToast(loading as number, "Ocorreu um erro no processo.")
     }
   }
 
