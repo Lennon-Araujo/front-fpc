@@ -188,6 +188,7 @@ export function TransactionModal({isOpen, closeModal, populateTransactions }: Tr
                 value={transactionsFormData.cost !== null ? formatToBRL(transactionsFormData.cost) : ""}
                 onChange={handleAmountChange}
                 maxLength={16}
+                inputMode='numeric'
                 className={`
                 p-3
                 text-right
@@ -351,6 +352,7 @@ export function TransactionModal({isOpen, closeModal, populateTransactions }: Tr
                 value={transactionsFormData.cost !== null ? formatToBRL(transactionsFormData.cost) : ""}
                 onChange={handleAmountChange}
                 maxLength={16}
+                inputMode='numeric'
                 className={`
                 p-3
                 text-right
