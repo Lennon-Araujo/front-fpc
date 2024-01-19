@@ -6,7 +6,6 @@ import ptBr from 'date-fns/locale/pt-BR';
 import Modal from 'react-modal';
 import { X } from 'phosphor-react';
 import { TransactionsHttpHelper } from '../helpers/transactionsHttp';
-import InputMask from 'react-input-mask';
 
 import "react-datepicker/dist/react-datepicker.css";
 import { CategoryContext } from '../contexts/CategoryContext';
