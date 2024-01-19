@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { CategoryContext } from "../contexts/CategoryContext";
 import { TransactionsHttpHelper } from "../helpers/transactionsHttp";
 import * as myToast from "../helpers/toast";
+import { formatToBRL } from "../helpers/formatToBRL";
 
 interface TransactionCardPropsType {
   transaction: TransactionsType;
@@ -68,7 +69,7 @@ export function TransactionCard( { transaction, populateTransactions }: Transact
             shared && <Users size={20} className="inline text-primary bg-secondary rounded-full p-0.5 align-sub mr-2" />
           }
           {
-            cost.toFixed(2).replace('.', ',')
+            formatToBRL(cost)
           }
           </p>
       </div>

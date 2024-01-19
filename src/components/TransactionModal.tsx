@@ -1,16 +1,18 @@
 // import { useContext, useState } from 'react';
-import { FormEvent, useContext, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from 'react';
 import DatePicker from "react-datepicker";
 import { registerLocale } from  "react-datepicker";
 import ptBr from 'date-fns/locale/pt-BR';
 import Modal from 'react-modal';
 import { X } from 'phosphor-react';
 import { TransactionsHttpHelper } from '../helpers/transactionsHttp';
+import InputMask from 'react-input-mask';
 
 import "react-datepicker/dist/react-datepicker.css";
 import { CategoryContext } from '../contexts/CategoryContext';
 import * as myToast from '../helpers/toast';
 import { TransactionContext } from './Transactions';
+import { formatToBRL } from '../helpers/formatToBRL';
 registerLocale('ptBr', ptBr)
 
 interface TransactionModalPropsType {
@@ -28,8 +30,6 @@ export interface TransactionsFormData {
   categoryId: string;
   shared: boolean;
 }
-
-// type TransactionToUpdate = Partial<TransactionsType>
 
 const initialFormData = {
   name: '',
@@ -106,6 +106,14 @@ export function TransactionModal({isOpen, closeModal, populateTransactions }: Tr
     }
   }
 
+  function handleAmountChange(event: ChangeEvent<HTMLInputElement>) {
+    const rawValue = event.target.value
+    const numericValue = parseFloat(rawValue.replace(/[^\d]/g, ''));
+    //Regex remover todos os caracteres não numéricos
+    
+    setTransactionsFormData((prevState) => ({...prevState, cost: numericValue}))
+  }
+
   return (
     updatingTransaction ? (
       <Modal
@@ -174,15 +182,16 @@ export function TransactionModal({isOpen, closeModal, populateTransactions }: Tr
             <div className="w-2/3 p-0.5 flex flex-col gap-1">
               <label htmlFor="cost" className="text-primary">Custo</label>
               <input
-                type="number"
+                type="text"
                 name="cost"
                 id="cost"
                 placeholder="1200,00"
-                value={transactionsFormData.cost || ""}
-                onChange={(event) => setTransactionsFormData((prevState) => ({...prevState, cost: Number(event.target.value)}))}
+                value={transactionsFormData.cost !== null ? formatToBRL(transactionsFormData.cost) : ""}
+                onChange={handleAmountChange}
+                maxLength={16}
                 className={`
                 p-3
-                text-left
+                text-right
                 rounded
                 w-full
                 h-10
@@ -336,15 +345,16 @@ export function TransactionModal({isOpen, closeModal, populateTransactions }: Tr
             <div className="w-2/3 p-0.5 flex flex-col gap-1">
               <label htmlFor="cost" className="text-primary">Custo</label>
               <input
-                type="number"
+                type="text"
                 name="cost"
                 id="cost"
                 placeholder="1200,00"
-                value={transactionsFormData.cost || ""}
-                onChange={(event) => setTransactionsFormData((prevState) => ({...prevState, cost: Number(event.target.value)}))}
+                value={transactionsFormData.cost !== null ? formatToBRL(transactionsFormData.cost) : ""}
+                onChange={handleAmountChange}
+                maxLength={16}
                 className={`
                 p-3
-                text-left
+                text-right
                 rounded
                 w-full
                 h-10
