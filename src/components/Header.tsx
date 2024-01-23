@@ -24,8 +24,10 @@ export function Header() {
     const loading = myToast.loading()
 
     try {
-      await api.post('/sessions/logout', {} , { headers: {...httpHeadersFactory(), "Content-Type": "application/json"}, withCredentials: true})
+      const refreshToken = localStorage.getItem("refreshToken")
+      await api.post('/sessions/logout', {refreshToken} , { headers: httpHeadersFactory()})
       localStorage.removeItem('token')
+      localStorage.removeItem('refreshToken')
       navigate('/signin', { replace: true })
       myToast.updateSuccessToast(loading as number)
     } catch (error) {

@@ -2,7 +2,8 @@ import { api } from "./axios";
 
 export async function getNewAccessToken(): Promise<string> {
   try {
-    const response = await api.post('/refresh-token', {}, {headers: {"Content-Type": "application/json"}, withCredentials: true});
+    const refreshToken = localStorage.getItem("refreshToken")
+    const response = await api.post('/refresh-token', {refreshToken}, {headers: {"Content-Type": "application/json"}, withCredentials: true});
     if (response.data && response.data.token) {
       return response.data.token;
     } else {
