@@ -163,6 +163,7 @@ export function TransactionModal({isOpen, closeModal, populateTransactions }: Tr
               onChange={(valor) => setTransactionsFormData((prevState) => ({...prevState, when: valor}))}
               locale="ptBr"
               dateFormat="dd/MM/yyyy"
+              closeOnScroll
               id='datepicker'
               className="
               text-left
@@ -327,6 +328,7 @@ export function TransactionModal({isOpen, closeModal, populateTransactions }: Tr
               onChange={(valor) => setTransactionsFormData((prevState) => ({...prevState, when: valor}))}
               locale="ptBr"
               dateFormat="dd/MM/yyyy"
+              closeOnScroll
               id='datepicker'
               className="
               text-left
