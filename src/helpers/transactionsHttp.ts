@@ -4,9 +4,18 @@ import { error } from './toast'
 import { httpHeadersFactory } from '../factory/http.factory'
 
 export class TransactionsHttpHelper {
-  static async getAll() {
+  static async getAll(filter: Date | null) {
+    let query = ""
+
+    if(filter) {
+      filter.setDate(1)
+      const to = new Date(filter)
+      to.setMonth(filter.getMonth() + 1)      
+      query += `?from=${filter.toISOString()}&to=${to.toISOString()}` 
+    }
+
     try {
-      const response = await api.get('/transactions', { headers: httpHeadersFactory() })
+      const response = await api.get(`/transactions${query}`, { headers: httpHeadersFactory() })
       return response
     } catch (err) {
     error("Erro: Busca de transações")
