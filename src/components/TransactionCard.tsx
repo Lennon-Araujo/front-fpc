@@ -51,7 +51,7 @@ export function TransactionCard( { transaction, populateTransactions }: Transact
       <div className="w-2/3 flex flex-col justify-between text-left">
         <span className="text-md text-basic truncate">{name}</span>
         <div>
-          <p className="text-sm text-basic font-light">{categoryName}</p>
+          <p className="text-sm text-basic font-light truncate">{categoryName}</p>
           <p className="text-sm text-basic font-light">{format(new Date(when), 'dd/MM/yyyy')}</p>
         </div>
       </div>
