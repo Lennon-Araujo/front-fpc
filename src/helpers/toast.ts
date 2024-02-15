@@ -13,7 +13,7 @@ export function error(message: string) {
     pauseOnHover: true,
     draggable: true,
     progress: undefined,
-    theme: "colored",
+    theme: "light",
     });
 }
 
@@ -26,12 +26,12 @@ export function success(message: string) {
     pauseOnHover: true,
     draggable: true,
     progress: undefined,
-    theme: "colored",
+    theme: "light",
     });
 }
 
-export function loading() {
-  return toast.loading("Aguarde um momento...");
+export function loading(message = "Aguarde um momento...") {
+  return toast.loading(message);
 }
 
 export function updateSuccessToast(loading: number, message = "Processo concluído com sucesso!") {
@@ -46,7 +46,7 @@ export function updateSuccessToast(loading: number, message = "Processo concluí
     pauseOnHover: false,
     draggable: true,
     progress: undefined,
-    theme: "colored",
+    theme: "light",
   })
 }
 
@@ -62,6 +62,6 @@ export function updateErrorToast(loading: number, message = "Ocorreu um erro ine
     pauseOnHover: false,
     draggable: true,
     progress: undefined,
-    theme: "colored",
+    theme: "light",
   })
 }

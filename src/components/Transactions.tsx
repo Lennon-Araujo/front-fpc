@@ -4,6 +4,7 @@ import { TransactionModal } from './TransactionModal';
 import { createContext, useCallback, useEffect, useState } from 'react';
 import { TransactionsHttpHelper } from '../helpers/transactionsHttp';
 import DatePicker from "react-datepicker";
+import * as myToast from "../helpers/toast";
 
 export interface TransactionsType {
   id: number;
@@ -33,14 +34,22 @@ export function Transactions() {
 
   const memoizedPopulateTransactions = useCallback(() => {
     const fetchTransactions = async () => {
-      const { data, status } = await TransactionsHttpHelper.getAll(filterPeriod)
-      if (status === 200) {
-        if (data.length > 0) {
-          setTransactions([...data])
-        } else {
-          setTransactions([])
+    const loading = myToast.loading("Carregando transações")
+
+      try {
+        const { data, status } = await TransactionsHttpHelper.getAll(filterPeriod)
+        if (status === 200) {
+          if (data.length > 0) {
+            setTransactions([...data])
+          } else {
+            setTransactions([])
+          }
+          myToast.updateSuccessToast(loading as number)
         }
+      } catch (error) {
+        myToast.updateErrorToast(loading as number)
       }
+
     };
 
     fetchTransactions();
@@ -118,13 +127,18 @@ export function Transactions() {
       >
 
       <section className="overflow-auto transition bg-basic w-full h-auto max-h-[80vh] md:max-h-[60vh] rounded-2xl ">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 p-2">
+        <div className={`grid grid-cols-1 p-2 ${transactions.length > 1  && "sm:grid-cols-2 lg:grid-cols-3 gap-2"}`}>
         {
-          transactions.map(transaction => {     
+          transactions.length > 0
+          ? transactions.map(transaction => {
             return (
               <TransactionCard key={transaction.id} transaction={transaction} populateTransactions={memoizedPopulateTransactions} />
               )
             })
+          : <div className='flex flex-col items-center justify-center w-full bg-primary rounded-2xl h-auto p-6 text-center'>
+              <p className='text-basic font-sans'>Não encontramos nada &#128517;</p>
+              <p className='text-basic font-sans text-sm'>Por favor selecione outro período ou tente criar uma nova transação.</p>
+            </div>
           }
           
         </div>
