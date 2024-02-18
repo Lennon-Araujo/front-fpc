@@ -49,16 +49,10 @@ export function TransactionCard( { transaction, populateTransactions, handleOpen
   }
 
   return (
-    <div key={id} className="flex gap-3 p-3 bg-primary flex-1 justify-between h-auto rounded-2xl">
-      <div className="w-2/3 flex flex-col justify-between text-left">
-        <span className="text-md text-basic truncate">{name}</span>
-        <div>
-          <p className="text-sm text-basic font-light truncate">{categoryName}</p>
-          <p className="text-sm text-basic font-light">{format(new Date(when), 'dd/MM/yyyy')}</p>
-        </div>
-      </div>
-      <div className="w-full text-right flex flex-col justify-between">
-        <div className="text-basic flex justify-end gap-2">
+    <div key={id} className="flex flex-col p-3 bg-primary justify-center h-auto rounded-2xl">
+      <header className="flex">
+        <span className="w-2/3 text-md text-basic truncate">{name}</span>
+        <div className="w-1/3 text-basic flex justify-end gap-2">
           <button onClick={handleUpdateTransaction}>
             <Pencil size={20} />
           </button>
@@ -66,14 +60,22 @@ export function TransactionCard( { transaction, populateTransactions, handleOpen
             <Trash size={20} />
           </button>
         </div>
-          <p className="text-md text-basic">
-          {
-            shared && <Users size={20} className="inline text-primary bg-secondary rounded-full p-0.5 align-sub mr-2" />
-          }
-          {
-            formatToBRL(cost)
-          }
-          </p>
+      </header>
+      <div className="flex justify-between">
+        <div className="w-1/2">
+          <p className="text-sm text-basic font-light truncate">{categoryName}</p>
+          <p className="text-sm text-basic font-light">{format(new Date(when), 'dd/MM/yyyy')}</p>
+        </div>
+        <div className="w-1/2 text-right flex justify-end items-end">
+            <p className="text-sm text-basic">
+            {
+              shared && <Users size={18} className="inline text-primary bg-secondary rounded-full p-0.5 align-sub mr-0.5" />
+            }
+            {
+              formatToBRL(cost)
+            }
+            </p>
+        </div>
       </div>
     </div>
   )
