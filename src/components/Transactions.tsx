@@ -39,8 +39,8 @@ export function Transactions() {
       try {
         const { data, status } = await TransactionsHttpHelper.getAll(filterPeriod)
         if (status === 200) {
-          if (data.length > 0) {
-            setTransactions([...data])
+          if (data.transactions.length > 0) {
+            setTransactions([...data.transactions])
           } else {
             setTransactions([])
           }
