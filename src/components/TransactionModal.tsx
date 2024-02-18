@@ -1,5 +1,5 @@
 // import { useContext, useState } from 'react';
-import { ChangeEvent, FormEvent, useContext, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useContext, useEffect, useReducer, useState } from 'react';
 import DatePicker from "react-datepicker";
 import { registerLocale } from  "react-datepicker";
 import ptBr from 'date-fns/locale/pt-BR';
@@ -43,7 +43,8 @@ export function TransactionModal({isOpen, closeModal, populateTransactions }: Tr
 
   const {updatingTransaction, onFinishUpdatingTransaction} = useContext(TransactionContext)
   
-  const [transactionsFormData, setTransactionsFormData] = useState<TransactionsFormData>(initialFormData)
+  // const [transactionsFormData, setTransactionsFormData] = useState<TransactionsFormData>(initialFormData)
+  const [transactionStates, dispatch] = useReducer((state: TransactionsFormData, action: any) => {},initialFormData)
   const [selectedCategory, setSelectedCategory] = useState("")
   const isDisabled = !!transactionsFormData.name && !!transactionsFormData.cost && !!transactionsFormData.categoryId && !!transactionsFormData.when
   const { categories } = useContext(CategoryContext);
