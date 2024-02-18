@@ -5,6 +5,7 @@ import { createContext, useCallback, useEffect, useState } from 'react';
 import { TransactionsHttpHelper } from '../helpers/transactionsHttp';
 import DatePicker from "react-datepicker";
 import * as myToast from "../helpers/toast";
+import { formatToBRL } from '../helpers/formatToBRL';
 
 export interface TransactionsType {
   id: number;
@@ -25,12 +26,27 @@ interface TransactionContextType {
   onFinishUpdatingTransaction: () => void;
 }
 
+interface TransactionSummary {
+  cost: number | null
+}
+
+interface CategorySummary {
+  categoryId: string | null
+  _sum: TransactionSummary
+}
+
+export interface SummaryResult {
+  generalSummary: { _sum: TransactionSummary }
+  categorySummary: CategorySummary[]
+}
+
 export const TransactionContext = createContext({} as TransactionContextType)
 export function Transactions() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [transactions, setTransactions] = useState<TransactionsType[]>([])
   const [updatingTransaction, setUpdatingTransaction] = useState<TransactionsType | null>(null)
   const [filterPeriod, setFilterPeriod] = useState<Date | null>(new Date())
+  const [summary, setSummary] = useState<SummaryResult | null>(null)
 
   const memoizedPopulateTransactions = useCallback(() => {
     const fetchTransactions = async () => {
@@ -41,8 +57,10 @@ export function Transactions() {
         if (status === 200) {
           if (data.transactions.length > 0) {
             setTransactions([...data.transactions])
+            setSummary(data.summaries)
           } else {
             setTransactions([])
+            setSummary(null)
           }
           myToast.updateSuccessToast(loading as number)
         }
@@ -81,11 +99,16 @@ export function Transactions() {
     <main className="w-11/12 p-4 flex flex-col gap-5 bg-primary rounded-2xl">
       <header className="flex flex-row items-center justify-between">
         <div className='flex items-center gap-4'>
-          <h1
-            className="text-center font-serif text-3xl text-secondary inline"
-          >
-            Transações
-          </h1>
+          <div>
+            <h1
+              className="text-center font-serif text-3xl text-secondary inline"
+            >
+              Transações
+            </h1>
+            <span className='block text-xs text-left font-sans text-secondary'>
+              {summary?.generalSummary._sum.cost && `Total: ${formatToBRL(summary?.generalSummary._sum.cost)}`}
+            </span>
+          </div>
           <div className="p-0.5 flex items-center gap-1">
             <label htmlFor="datepicker" className="text-secondary hidden"> Período</label>
             <DatePicker
