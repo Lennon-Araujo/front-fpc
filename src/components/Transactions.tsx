@@ -1,81 +1,41 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Plus } from 'phosphor-react';
 import { TransactionCard } from './TransactionCard';
 import { TransactionModal } from './TransactionModal';
-import { createContext, useCallback, useEffect, useState } from 'react';
-import { TransactionsHttpHelper } from '../helpers/transactionsHttp';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import DatePicker from "react-datepicker";
-import * as myToast from "../helpers/toast";
 import { formatToBRL } from '../helpers/formatToBRL';
+import { useTransactions } from '../hooks/useTransaction';
+import { TransactionContext } from '../contexts/TransactionContext';
+import * as myToast from '../helpers/toast';
 
-export interface TransactionsType {
-  id: number;
-  name: string;
-  when: Date;
-  cost: number;
-  categoryId: string;
-  shared: boolean;
-  created_at: string;
-  updated_at: string;
-}
 
-interface TransactionContextType {
-  transactions: TransactionsType[];
-  updatingTransaction: TransactionsType | null;
-  handleOpenTransactionModal: () => void;
-  onUpdatingTransaction: (transaction: TransactionsType) => void;
-  onFinishUpdatingTransaction: () => void;
-}
-
-interface TransactionSummary {
-  cost: number | null
-}
-
-interface CategorySummary {
-  categoryId: string | null
-  _sum: TransactionSummary
-}
-
-export interface SummaryResult {
-  generalSummary: { _sum: TransactionSummary }
-  categorySummary: CategorySummary[]
-}
-
-export const TransactionContext = createContext({} as TransactionContextType)
 export function Transactions() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [transactions, setTransactions] = useState<TransactionsType[]>([])
-  const [updatingTransaction, setUpdatingTransaction] = useState<TransactionsType | null>(null)
   const [filterPeriod, setFilterPeriod] = useState<Date | null>(new Date())
-  const [summary, setSummary] = useState<SummaryResult | null>(null)
 
-  const memoizedPopulateTransactions = useCallback(() => {
-    const fetchTransactions = async () => {
-    const loading = myToast.loading("Carregando transações")
+  const {
+    transactions,
+    summary,
+    onSetTransactions,
+    onSetSummary,
+    onUpdatingTransaction
+  } = useContext(TransactionContext)
 
-      try {
-        const { data, status } = await TransactionsHttpHelper.getAll(filterPeriod)
-        if (status === 200) {
-          if (data.transactions.length > 0) {
-            setTransactions([...data.transactions])
-            setSummary(data.summaries)
-          } else {
-            setTransactions([])
-            setSummary(null)
-          }
-          myToast.updateSuccessToast(loading as number)
-        }
-      } catch (error) {
-        myToast.updateErrorToast(loading as number)
-      }
-
-    };
-
-    fetchTransactions();
-  }, [filterPeriod]);
+  const memoizedPopulateTransactions = useTransactions({
+    onSetTransactions: useCallback(onSetTransactions, []),
+    onSetSummary: useCallback(onSetSummary, []),
+    filterPeriod,
+  });
 
   useEffect(() => {
-    memoizedPopulateTransactions();
-  }, [memoizedPopulateTransactions]);
+    const loading = myToast.loading('Carregando transações');
+      memoizedPopulateTransactions().then(() => {
+        myToast.updateSuccessToast(loading as number);
+      }).catch((error) => {
+        myToast.updateErrorToast(loading as number, error.message);
+      })
+  }, [memoizedPopulateTransactions, filterPeriod]);
 
   function handleOpenTransactionModal() {
     setIsModalOpen(true);
@@ -84,14 +44,9 @@ export function Transactions() {
   function onCloseTransactionModal() {
     setIsModalOpen(false);
   }
-  
-  function onUpdatingTransaction(transaction: TransactionsType) {
-    setUpdatingTransaction((state) => ({state, ...transaction}));
-    handleOpenTransactionModal()
-  }
 
-  function onFinishUpdatingTransaction() {
-    setUpdatingTransaction(null)
+  function handleFinishUpdatingTransaction() {
+    onUpdatingTransaction(null)
     onCloseTransactionModal()
   }
 
@@ -139,15 +94,7 @@ export function Transactions() {
         </div>
         <Plus size={38} className="text-secondary hover:text-primary cursor-pointer hover:bg-secondary rounded-sm transition " onClick={handleOpenTransactionModal} />
       </header>
-      <TransactionContext.Provider
-        value={{
-          transactions,
-          updatingTransaction,
-          handleOpenTransactionModal,
-          onUpdatingTransaction,
-          onFinishUpdatingTransaction
-        }}
-      >
+
 
       <section className="overflow-auto transition bg-basic w-full h-auto max-h-[80vh] md:max-h-[60vh] rounded-2xl ">
         <div className={`grid grid-cols-1 p-2 ${transactions.length > 1  && "sm:grid-cols-2 lg:grid-cols-3 gap-2"}`}>
@@ -155,7 +102,7 @@ export function Transactions() {
           transactions.length > 0
           ? transactions.map(transaction => {
             return (
-              <TransactionCard key={transaction.id} transaction={transaction} populateTransactions={memoizedPopulateTransactions} />
+              <TransactionCard key={transaction.id} transaction={transaction} populateTransactions={memoizedPopulateTransactions} handleOpenTransactionModal={handleOpenTransactionModal} />
               )
             })
           : <div className='flex flex-col items-center justify-center w-full bg-primary rounded-2xl h-auto p-6 text-center'>
@@ -170,8 +117,8 @@ export function Transactions() {
         isOpen={isModalOpen}
         closeModal={onCloseTransactionModal}
         populateTransactions={memoizedPopulateTransactions}
+        handleFinishUpdatingTransaction={handleFinishUpdatingTransaction}
         />
-      </TransactionContext.Provider>
     </main>
   )
 }

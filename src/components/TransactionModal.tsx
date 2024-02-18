@@ -10,8 +10,9 @@ import { TransactionsHttpHelper } from '../helpers/transactionsHttp';
 import "react-datepicker/dist/react-datepicker.css";
 import { CategoryContext } from '../contexts/CategoryContext';
 import * as myToast from '../helpers/toast';
-import { TransactionContext } from './Transactions';
 import { formatToBRL } from '../helpers/formatToBRL';
+import { TransactionContext } from '../contexts/TransactionContext';
+import { ModalTitle } from './TransactionModalSteps/ModalTitle';
 registerLocale('ptBr', ptBr)
 
 interface TransactionModalPropsType {
@@ -20,6 +21,7 @@ interface TransactionModalPropsType {
   toUpdateModal?: boolean;
   closeModal: () => void;
   populateTransactions: () => void;
+  handleFinishUpdatingTransaction: () => void;
 }
 
 export interface TransactionsFormData {
@@ -39,9 +41,9 @@ const initialFormData = {
 } as TransactionsFormData
 
 Modal.setAppElement('#root');
-export function TransactionModal({isOpen, closeModal, populateTransactions }: TransactionModalPropsType) {
+export function TransactionModal({isOpen, closeModal, populateTransactions, handleFinishUpdatingTransaction }: TransactionModalPropsType) {
 
-  const {updatingTransaction, onFinishUpdatingTransaction} = useContext(TransactionContext)
+  const {updatingTransaction} = useContext(TransactionContext)
   
   const [transactionsFormData, setTransactionsFormData] = useState<TransactionsFormData>(initialFormData)
   const [selectedCategory, setSelectedCategory] = useState("")
@@ -98,7 +100,7 @@ export function TransactionModal({isOpen, closeModal, populateTransactions }: Tr
         populateTransactions()
         myToast.updateSuccessToast(loading as number)
         setTransactionsFormData(initialFormData)
-        onFinishUpdatingTransaction()
+        handleFinishUpdatingTransaction()
       } catch (error) {
         myToast.updateErrorToast(loading as number)
       }
@@ -121,13 +123,7 @@ export function TransactionModal({isOpen, closeModal, populateTransactions }: Tr
       isOpen={isOpen}
       onRequestClose={closeModal}
     >
-
-      <header className="p-5 bg-primary w-full flex justify-between">
-        <h2 className="font-serif text-secondary text-3xl">
-          Atualizar Transação
-        </h2>
-        <X onClick={onFinishUpdatingTransaction} size={38} className="text-secondary hover:text-primary hover:bg-secondary transition cursor-pointer rounded-sm" />
-      </header>
+      <ModalTitle handleFinishUpdatingTransaction={handleFinishUpdatingTransaction} />
 
       <div className="px-2 sm:px-5 h-full w-full flex items-start justify-center bg-basic overflow-y-scroll">
         <form onSubmit={onUpdateTransaction} className="flex flex-col w-full max-w-sm py-3 md gap-3">

@@ -1,21 +1,20 @@
 import { Pencil, Trash, Users } from "phosphor-react";
-import { TransactionContext, TransactionsType } from "../components/Transactions"
 import { format } from "date-fns";
 import { useContext } from "react";
 import { CategoryContext } from "../contexts/CategoryContext";
 import { TransactionsHttpHelper } from "../helpers/transactionsHttp";
 import * as myToast from "../helpers/toast";
 import { formatToBRL } from "../helpers/formatToBRL";
+import { TransactionContext, TransactionsType } from "../contexts/TransactionContext";
 
 interface TransactionCardPropsType {
   transaction: TransactionsType;
   populateTransactions: () => void;
+  handleOpenTransactionModal: () => void;
 }
 
-export function TransactionCard( { transaction, populateTransactions }: TransactionCardPropsType) {
+export function TransactionCard( { transaction, populateTransactions, handleOpenTransactionModal }: TransactionCardPropsType) {
   
-  const { onUpdatingTransaction } = useContext(TransactionContext)
-
   const {
     id,
     categoryId,
@@ -24,6 +23,8 @@ export function TransactionCard( { transaction, populateTransactions }: Transact
     name,
     shared
   } = transaction;
+
+  const { onUpdatingTransaction } = useContext(TransactionContext)
 
 
   
@@ -44,6 +45,7 @@ export function TransactionCard( { transaction, populateTransactions }: Transact
 
   async function handleUpdateTransaction() {
     onUpdatingTransaction(transaction)
+    handleOpenTransactionModal()
   }
 
   return (
