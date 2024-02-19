@@ -89,6 +89,7 @@ export function Transactions() {
               hover:opacity-80
               border-secondary
               "
+              onFocus={e => e.target.blur()}
             />
           </div>
         </div>

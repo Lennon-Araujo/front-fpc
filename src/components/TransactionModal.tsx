@@ -171,6 +171,7 @@ export function TransactionModal({isOpen, closeModal, populateTransactions, hand
               font-sans
               truncate
               "
+              onFocus={e => e.target.blur()}
             />
           </div>
 
@@ -336,6 +337,7 @@ export function TransactionModal({isOpen, closeModal, populateTransactions, hand
               font-sans
               truncate
               "
+              onFocus={e => e.target.blur()}
             />
           </div>
 
