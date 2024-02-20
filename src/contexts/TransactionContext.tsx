@@ -48,9 +48,7 @@ export function TransactionContextProvider({ children }: TransactionContextProps
   const [updatingTransaction, setUpdatingTransaction] = useState<TransactionsType | null>(null)
   const [summary, setSummary] = useState<SummaryResult | null>(null)
 
-  function onUpdatingTransaction(transaction: TransactionsType | null) {
-    console.log(transaction);
-    
+  function onUpdatingTransaction(transaction: TransactionsType | null) {    
     if(!transaction) {
       setUpdatingTransaction(null)
     } else {

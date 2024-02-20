@@ -39,10 +39,7 @@ export function ModalBody({ populateTransactions, handleFinishUpdatingTransactio
 
   const [transactionsFormData, setTransactionsFormData] = useState<TransactionsFormData>(initialFormData)
   const [selectedCategory, setSelectedCategory] = useState("")
-  const isDisabled = !!transactionsFormData.name && !!transactionsFormData.cost && !!transactionsFormData.categoryId && !!transactionsFormData.when
-
-  console.log(transactionsFormData);
-  
+  const isDisabled = !!transactionsFormData.name && !!transactionsFormData.cost && !!transactionsFormData.categoryId && !!transactionsFormData.when  
 
   useEffect(() => {
     setTransactionsFormData(initialFormData)
