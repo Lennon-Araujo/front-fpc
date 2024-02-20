@@ -1,7 +1,7 @@
 import { api } from './axios'
-import { TransactionsFormData } from '../components/TransactionModal'
 import { error } from './toast'
 import { httpHeadersFactory } from '../factory/http.factory'
+import { TransactionsFormData } from '../components/TransactionModalSteps/ModalBody'
 
 export class TransactionsHttpHelper {
   static async getAll(filter: Date | null) {
