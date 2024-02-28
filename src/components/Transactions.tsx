@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Plus } from 'phosphor-react';
+import { CircleNotch, Plus } from 'phosphor-react';
 import { TransactionCard } from './TransactionCard';
 import { TransactionModal } from './TransactionModal';
 import { useCallback, useContext, useEffect, useState } from 'react';
@@ -7,12 +7,12 @@ import DatePicker from "react-datepicker";
 import { formatToBRL } from '../helpers/formatToBRL';
 import { useTransactions } from '../hooks/useTransaction';
 import { TransactionContext } from '../contexts/TransactionContext';
-import * as myToast from '../helpers/toast';
-
+import { TransactionSkeletonLoading } from './TransactionSkeletonLoading';
 
 export function Transactions() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [filterPeriod, setFilterPeriod] = useState<Date | null>(new Date())
+  const [isLoading, setIsLoading] = useState(false)
 
   const {
     transactions,
@@ -29,12 +29,12 @@ export function Transactions() {
   });
 
   useEffect(() => {
-    const loading = myToast.loading('Carregando transações');
-      memoizedPopulateTransactions().then(() => {
-        myToast.updateSuccessToast(loading as number);
-      }).catch((error) => {
-        myToast.updateErrorToast(loading as number, error.message);
-      })
+    setIsLoading(true)
+
+    memoizedPopulateTransactions().then(() => {
+      setIsLoading(false)
+    })
+
   }, [memoizedPopulateTransactions, filterPeriod]);
 
   function handleOpenTransactionModal() {
@@ -61,11 +61,15 @@ export function Transactions() {
               Transações
             </h1>
             <span className='block text-xs text-left font-sans text-secondary'>
-              {summary?.generalSummary._sum.cost && `Total: ${formatToBRL(summary?.generalSummary._sum.cost)}`}
+              {
+                isLoading
+                ? <div>Total: R$ <CircleNotch className='animate-spin inline' size={16} /> </div>
+                : summary?.generalSummary._sum.cost && `Total: ${formatToBRL(summary?.generalSummary._sum.cost)}`
+              }
             </span>
           </div>
           <div className="p-0.5 flex items-center gap-1">
-            <label htmlFor="datepicker" className="text-secondary hidden"> Período</label>
+            <label htmlFor="datepicker" className="text-secondary hidden">Período</label>
             <DatePicker
               selected={filterPeriod}
               onChange={(date) => setFilterPeriod(date)}
@@ -98,9 +102,11 @@ export function Transactions() {
 
 
       <section className="overflow-auto transition bg-basic w-full h-auto max-h-[80vh] md:max-h-[60vh] rounded-2xl ">
-        <div className={`grid grid-cols-1 p-2 ${transactions.length > 1  && "sm:grid-cols-2 lg:grid-cols-3 gap-2"}`}>
+        <div className={`grid grid-cols-1 p-2 ${!isLoading && transactions.length > 1  && "sm:grid-cols-2 lg:grid-cols-3 gap-2"}`}>
         {
-          transactions.length > 0
+          isLoading
+          ? <TransactionSkeletonLoading />
+          : transactions.length > 0
           ? transactions.map(transaction => {
             return (
               <TransactionCard key={transaction.id} transaction={transaction} populateTransactions={memoizedPopulateTransactions} handleOpenTransactionModal={handleOpenTransactionModal} />
