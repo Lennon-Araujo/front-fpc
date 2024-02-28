@@ -14,20 +14,15 @@ export class TransactionsHttpHelper {
       query += `?from=${filter.toISOString()}&to=${to.toISOString()}` 
     }
 
-    try {
       const response = await api.get(`/transactions${query}`, { headers: httpHeadersFactory() })
       return response
-    } catch (err) {
-    error("Erro: Busca de transações")
-      throw new Error()
-    }
   }
 
   static async createTransaction(payload: TransactionsFormData) {
     try {
       return await api.post('/transactions', payload, { headers: httpHeadersFactory() })
     } catch (err) {
-    error("Erro: Busca de transações")
+    error("Erro: Na criação de transações")
       throw new Error()
     }
   }
