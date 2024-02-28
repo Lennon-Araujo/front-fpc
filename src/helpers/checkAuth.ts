@@ -5,7 +5,7 @@ export interface Jwt {
 }
 
 export function checkAuth() {
-  const accessToken = localStorage.getItem('token');
+  const accessToken = localStorage.getItem('refreshToken');
   
   if (!accessToken) {
     return false;
@@ -15,7 +15,7 @@ export function checkAuth() {
   
   const currentTimestamp = Math.floor(Date.now() / 1000);
   if (decodedToken.exp && decodedToken.exp < currentTimestamp) {
-    localStorage.removeItem('token')
+    localStorage.removeItem('refreshToken')
     return false
   } else {
     return true
