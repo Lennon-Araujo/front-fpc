@@ -1,6 +1,7 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
 import { api } from "../helpers/axios";
 import { httpHeadersFactory } from "../factory/http.factory";
+import { CircleNotch } from "phosphor-react";
 
 interface CategoryContextType {
   categories: Category[];
@@ -21,14 +22,17 @@ export const CategoryContext = createContext({} as CategoryContextType);
 
 export function CategoryContextProvider({ children }: CategoryContextPropsType) {
   const [categories, setCategories] = useState<Category[]>([])
+  const [isLoading, setIsLoading] = useState(false)
 
 
   async function populateCategories() {
+    setIsLoading(true)
     const { data } = await api.get('/category', { headers: httpHeadersFactory() })
 
     if(data.length > 0) {
       setCategories([...data])
     }
+    setIsLoading(false)
   }
 
   useEffect(() => {
@@ -58,7 +62,14 @@ export function CategoryContextProvider({ children }: CategoryContextPropsType) 
         onCreateCategory
       }}
     >
-      { children }
+      { 
+        isLoading
+        ? <div className="flex flex-col justify-center items-center text-primary p-20 text-lg h-max">
+            <CircleNotch className='animate-spin' size={40} />
+            Carregando
+          </div>
+        : children
+      }
     </CategoryContext.Provider>
   )
 }
