@@ -156,7 +156,9 @@ export function ModalBody({ populateTransactions, handleFinishUpdatingTransactio
             "
             onFocus={e => {
               e.preventDefault()
-              e.currentTarget.blur()
+              setTimeout(() => {
+                e.currentTarget.blur()
+              }, 3000)
             }}
             preventOpenOnFocus
           />
