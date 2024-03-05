@@ -68,7 +68,13 @@ export function Transactions() {
               }
             </span>
           </div>
-          <div className="p-0.5 flex items-center gap-1">
+          <div
+            className="p-0.5 flex items-center gap-1"
+            onClick={e => {
+              e.preventDefault()
+              document.getElementById("datepicker")!.autofocus = true;
+            }}
+          >
             <label htmlFor="datepicker" className="text-secondary hidden">Período</label>
             <DatePicker
               selected={filterPeriod}

@@ -137,16 +137,19 @@ export function ModalBody({ populateTransactions, handleFinishUpdatingTransactio
     
         <div
           className="w-full p-0.5 flex flex-col gap-1"
-          onClick={e => e.preventDefault()}
+          onClick={e => {
+            e.preventDefault()
+            document.getElementById("datepicker-modal")!.autofocus = true;
+          }}
         >
-          <label htmlFor="datepicker" className="text-primary">Data da transação</label>
+          <label htmlFor="datepicker-modal" className="text-primary">Data da transação</label>
           <DatePicker
             selected={transactionsFormData.when}
             onChange={(valor) => setTransactionsFormData((prevState) => ({...prevState, when: valor}))}
             locale="ptBr"
             dateFormat="dd/MM/yyyy"
             closeOnScroll
-            id='datepicker'
+            id='datepicker-modal'
             className="
             text-left
             p-3
