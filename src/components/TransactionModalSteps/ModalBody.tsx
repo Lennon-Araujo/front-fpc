@@ -154,11 +154,7 @@ export function ModalBody({ populateTransactions, handleFinishUpdatingTransactio
             font-sans
             truncate
             "
-            onFocus={e => {
-              setTimeout(() => {
-                e.target.blur()
-              }, 3000)
-            }}
+            onFocus={e => e.target.readOnly = true}
           />
         </div>
     
