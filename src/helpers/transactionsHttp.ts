@@ -9,6 +9,7 @@ export class TransactionsHttpHelper {
 
     if(filter) {
       filter.setDate(1)
+      filter.setHours(0,0,0,0)
       const to = new Date(filter)
       to.setMonth(filter.getMonth() + 1)      
       query += `?from=${filter.toISOString()}&to=${to.toISOString()}` 
