@@ -154,7 +154,7 @@ export function ModalBody({ populateTransactions, handleFinishUpdatingTransactio
             font-sans
             truncate
             "
-            onFocus={e => e.target.blur()}
+            onFocus={e => e.currentTarget.blur()}
           />
         </div>
     
