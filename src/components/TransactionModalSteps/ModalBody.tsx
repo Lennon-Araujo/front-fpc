@@ -107,6 +107,10 @@ export function ModalBody({ populateTransactions, handleFinishUpdatingTransactio
     setTransactionsFormData((prevState) => ({...prevState, cost: numericValue}))
   }
 
+  const DatepickerInput = ({ ...props }) => (
+    <input type="text" {...props} readOnly />
+  );
+
   return (
     <div className="px-2 sm:px-5 h-full w-full flex items-start justify-center bg-basic overflow-y-scroll">
       <form onSubmit={ updatingTransaction ? onUpdateTransaction: handleCreateTransaction } className="flex flex-col w-full max-w-sm py-3 md gap-3">
@@ -135,13 +139,7 @@ export function ModalBody({ populateTransactions, handleFinishUpdatingTransactio
           />
         </div>
     
-        <div
-          className="w-full p-0.5 flex flex-col gap-1"
-          onClick={e => {
-            e.preventDefault()
-            document.getElementById("datepicker-modal")!.autofocus = true;
-          }}
-        >
+        <div className="w-full p-0.5 flex flex-col gap-1">
           <label htmlFor="datepicker-modal" className="text-primary">Data da transação</label>
           <DatePicker
             selected={transactionsFormData.when}
@@ -160,7 +158,7 @@ export function ModalBody({ populateTransactions, handleFinishUpdatingTransactio
             font-sans
             truncate
             "
-            onFocus={e => e.target.readOnly = true}
+            customInput={<DatepickerInput />}
           />
         </div>
     

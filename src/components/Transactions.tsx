@@ -50,6 +50,10 @@ export function Transactions() {
     onCloseTransactionModal()
   }
 
+  const DatepickerInput = ({ ...props }) => (
+    <input type="text" {...props} readOnly />
+  );
+
   return (
     <main className="w-11/12 p-4 flex flex-col gap-5 bg-primary rounded-2xl">
       <header className="flex flex-row items-center justify-between">
@@ -68,13 +72,7 @@ export function Transactions() {
               }
             </span>
           </div>
-          <div
-            className="p-0.5 flex items-center gap-1"
-            onClick={e => {
-              e.preventDefault()
-              document.getElementById("datepicker")!.autofocus = true;
-            }}
-          >
+          <div className="p-0.5 flex items-center gap-1">
             <label htmlFor="datepicker" className="text-secondary hidden">Período</label>
             <DatePicker
               selected={filterPeriod}
@@ -99,10 +97,7 @@ export function Transactions() {
               hover:opacity-80
               border-secondary
               "
-              onFocus={e => {
-                e.preventDefault()
-                e.target.readOnly = true
-              }}
+              customInput={<DatepickerInput />}
             />
           </div>
         </div>
