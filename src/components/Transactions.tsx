@@ -95,9 +95,8 @@ export function Transactions() {
               "
               onFocus={e => {
                 e.preventDefault()
-                e.currentTarget.blur()
+                e.target.readOnly = true
               }}
-              preventOpenOnFocus
             />
           </div>
         </div>

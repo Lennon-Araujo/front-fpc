@@ -135,7 +135,10 @@ export function ModalBody({ populateTransactions, handleFinishUpdatingTransactio
           />
         </div>
     
-        <div className="w-full p-0.5 flex flex-col gap-1">
+        <div
+          className="w-full p-0.5 flex flex-col gap-1"
+          onClick={e => e.preventDefault()}
+        >
           <label htmlFor="datepicker" className="text-primary">Data da transação</label>
           <DatePicker
             selected={transactionsFormData.when}
