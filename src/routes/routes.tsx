@@ -5,6 +5,8 @@ import { Route, Routes, Navigate } from 'react-router-dom'
 import { PrivateRoute } from './privateRoute.tsx'
 import { ErrorPage } from '../views/ErrorPage.tsx'
 import { ShareControl } from '../views/ShareControl.tsx'
+import { ResetPassword } from '../views/ResetPassword.tsx'
+import { ForgotPassword } from '../views/ForgotPassword.tsx'
 
 export function AppRouter() {
   return (
@@ -37,6 +39,18 @@ export function AppRouter() {
           <PrivateRoute redirectTo='/signin' >
             <ShareControl />
           </PrivateRoute>
+        }
+      />
+      <Route
+        path='/forgot-password'
+        element={
+          <ForgotPassword />
+        }
+      />
+      <Route
+        path='/reset-password?'
+        element={
+          <ResetPassword />
         }
       />
     </Routes>

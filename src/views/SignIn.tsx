@@ -76,7 +76,7 @@ export function SignIn() {
           </div>
 
           <div className="w-full p-0.5 flex flex-col gap-1">
-            <label htmlFor="password" className="text-primary">Password</label>
+            <label htmlFor="password" className="text-primary">Senha</label>
             <div className="flex justify-between items-center shadow-sm bg-white rounded">
               <input
                 type={showPassword ? "text" : "password"}
@@ -103,6 +103,8 @@ export function SignIn() {
             </div>
           </div>
 
+          <Link className="text-primary text-center text-xs md:text-sm underline" to={'/forgot-password'}>Esqueceu a senha?</Link>
+
           <button
             type="submit"
             disabled={submitDisabled}
@@ -123,11 +125,11 @@ export function SignIn() {
               disabled:cursor-not-allowed
             "
           >
-            Sign In
+            Entrar
           </button>
         </form>
         
-        <Link className="text-primary text-sm md:text-base underline" to={'/signup'}>Not registered yet? Create an account.</Link>
+        <Link className="text-primary text-sm md:text-base underline" to={'/signup'}>Não possui conta? Registre-se</Link>
 
       </div>
     </>

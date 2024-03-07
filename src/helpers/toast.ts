@@ -34,13 +34,13 @@ export function loading(message = "Aguarde um momento...") {
   return toast.loading(message);
 }
 
-export function updateSuccessToast(loading: number, message = "Processo concluído com sucesso!") {
+export function updateSuccessToast(loading: number, message = "Processo concluído com sucesso!", autoClose = 1000) {
   toast.update(loading, {
     render: message,
     type: 'success',
     isLoading: false,
     position: "top-right",
-    autoClose: 1000,
+    autoClose: autoClose,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: false,
@@ -50,13 +50,13 @@ export function updateSuccessToast(loading: number, message = "Processo concluí
   })
 }
 
-export function updateErrorToast(loading: number, message = "Ocorreu um erro inesperado.") {
+export function updateErrorToast(loading: number, message = "Ocorreu um erro inesperado.", autoClose = 1000) {
   toast.update(loading, {
     render: message,
     type: 'error',
     isLoading: false,
     position: "top-right",
-    autoClose: 1000,
+    autoClose: autoClose,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: false,

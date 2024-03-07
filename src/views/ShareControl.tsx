@@ -45,10 +45,10 @@ export function ShareControl() {
   return (
     <div className="w-auto max-w-[80vw] p-5 mt-5 flex flex-col justify-center items-center gap-3 bg-primary rounded-2xl">
       <div className="flex justify-center items-center gap-3">
-        <h1 className="font-mono text-lg text-secondary">Share Control</h1>
+        <h1 className="font-mono text-lg text-secondary">Controle de Compartilhamento</h1>
       </div>
       <p className="max-w-fit peer-hover:hidden text-center text-sm font-mono text-secondary transition duration-300">
-        Here you can control who you share transactions with.
+        Aqui você pode gerenciar o compartilhamento de suas transações.
       </p>
       <form onSubmit={handleShareControl} method="post" className="flex flex-col w-11/12 sm:flex-row justify-center items-center gap-2">
         <div className="w-11/12 max-w-full p-0.5 flex flex-col justify-center items-center gap-1">

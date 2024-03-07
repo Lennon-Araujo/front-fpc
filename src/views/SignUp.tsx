@@ -49,9 +49,10 @@ export function SignUp() {
   return (
     <>
       <div className="px-2 sm:px-5 h-full w-full flex flex-col justify-center items-center bg-basic overflow-y-scroll">
-        <form onSubmit={handleSignUp} className="flex flex-col w-full py-14 max-w-sm md gap-3">
+        <div className="text-base text-primary/70 text-center mt-10">Cadastre para controlar suas finanças.</div>
+        <form onSubmit={handleSignUp} className="flex flex-col w-full py-10 max-w-sm md gap-3">
           <div className="w-full p-0.5 flex flex-col gap-1">
-            <label htmlFor="name" className="text-primary">Name</label>
+            <label htmlFor="name" className="text-primary">Nome</label>
             <input
               type="name"
               name="name"
@@ -97,7 +98,7 @@ export function SignUp() {
           </div>
 
           <div className="w-full p-0.5 flex flex-col gap-1">
-            <label htmlFor="password" className="text-primary">Password</label>
+            <label htmlFor="password" className="text-primary">Senha</label>
             <div className="flex justify-between items-center shadow-sm bg-white rounded">
               <input
                 type={showPassword ? "text" : "password"}
@@ -144,11 +145,11 @@ export function SignUp() {
               disabled:cursor-not-allowed
             "
           >
-            Sign Up
+            Registrar
           </button>
         </form>
         
-        <Link className="text-primary text-sm md:text-base underline" to={'/signin'}>Already registered? Sign In.</Link>
+        <Link className="text-primary text-sm md:text-base underline" to={'/signin'}>Já possui conta? Entre aqui</Link>
 
       </div>
     </>
