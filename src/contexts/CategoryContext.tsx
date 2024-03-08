@@ -27,12 +27,16 @@ export function CategoryContextProvider({ children }: CategoryContextPropsType) 
 
   async function populateCategories() {
     setIsLoading(true)
-    const { data } = await api.get('/category', { headers: httpHeadersFactory() })
+    try {
+      const { data } = await api.get('/category', { headers: httpHeadersFactory() })
 
-    if(data.length > 0) {
-      setCategories([...data])
+      if(data.length > 0) {
+        setCategories([...data])
+      }
+      setIsLoading(false)
+    } catch (error) {
+      setIsLoading(false)
     }
-    setIsLoading(false)
   }
 
   useEffect(() => {
