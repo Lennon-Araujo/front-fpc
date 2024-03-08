@@ -33,7 +33,7 @@ export function ResetPassword() {
       token: recoveryPasswordToken
     }
     const loading = myToast.loading()
-    const toastTimeInMs = 3000
+    const toastTimeInMs = 5000
     setSubmitDisabled(true)
 
     try {
